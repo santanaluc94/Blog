@@ -1,0 +1,4 @@
+#!/bin/bash
+docker compose down
+sudo rm -Rf ./web/vendor/
+sudo rm ./web/composer.lock
