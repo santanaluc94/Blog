@@ -59,7 +59,10 @@ services:
     build: .
     volumes:
       - ./web:/var/www/html
+      - ./xdebug.ini:/usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini
     working_dir: /var/www/html
+    expose:
+      - 9000
     ports:
       - 9000:9000
     restart: always
