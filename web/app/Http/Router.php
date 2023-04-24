@@ -4,6 +4,7 @@ namespace App\Http;
 
 use App\Http\Response;
 use Closure;
+use ReflectionFunction;
 use Exception;
 
 class Router
@@ -42,6 +43,12 @@ class Router
             }
 
             $args = [];
+            $reflection = new ReflectionFunction($route['controller']);
+
+            foreach ($reflection->getParameters() as $param) {
+                $name = $param->getName();
+                $args[$name] = $route['vars'][$name] ?? '';
+            }
 
             return call_user_func_array($route['controller'], $args);
         } catch (Exception $exception) {
@@ -56,13 +63,24 @@ class Router
         $this->prefix = $parseUrl['path'] ?? '';
     }
 
-    protected function addRoute(string $method, string $route, array $params): void
-    {
+    protected function addRoute(
+        string $method,
+        string $route,
+        array $params = []
+    ): void {
         foreach ($params as $key => $value) {
             if ($value instanceof Closure) {
                 $params['controller'] = $value;
                 unset($params[$key]);
             }
+        }
+
+        $params['vars'] = [];
+
+        $patternVar = '/{(.*?)}/';
+        if (preg_match_all($patternVar, $route, $matches)) {
+            $route = preg_replace($patternVar, '(.*?)', $route);
+            $params['vars'] = $matches[1];
         }
 
         $patternRoute = '/^' . str_replace('/', '\/', $route) . '$/';
@@ -76,8 +94,13 @@ class Router
         $httpMethod = $this->request->getHttpMethod();
 
         foreach ($this->routes as $patternRoute => $methods) {
-            if (preg_match($patternRoute, $uri)) {
-                if ($methods[$httpMethod]) {
+            if (preg_match($patternRoute, $uri, $matches)) {
+                if (isset($methods[$httpMethod])) {
+                    unset($matches[0]);
+
+                    $keys = $methods[$httpMethod]['vars'];
+                    $methods[$httpMethod]['vars'] = array_combine($keys, $matches);
+                    $methods[$httpMethod]['vars']['request'] = $this->request;
                     return $methods[$httpMethod];
                 }
 
