@@ -1,10 +1,16 @@
 <?php
 
 use App\Http\Router;
+use App\View\View;
 
 require __DIR__ . '/vendor/autoload.php';
 
 define('URL', 'http://localhost');
+
+View::init([
+    'baseUrl' => URL,
+    'baseAdminUrl' => URL . '/admin',
+]);
 
 $router = new Router(URL);
 

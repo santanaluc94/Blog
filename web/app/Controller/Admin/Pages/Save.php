@@ -10,7 +10,6 @@ class Save extends \App\Controller\Admin\AbstractAdminPage
     {
         $arguments = [
             'title' => 'Nova Página',
-            'baseUrl' => URL . '/admin',
             'pageSavePath' => 'pages/save',
             'pageSavePost' => '',
             'pageDeletePath' => 'pages/delete',

@@ -10,9 +10,8 @@ class Register extends AbstractAdminPage
     {
         $arguments = [
             'title' => 'Blog: Register',
-            'baseUrl' => URL,
             'actionFormUrl' => '',
-            'loginPath' => 'admin/login'
+            'loginPath' => 'login'
         ];
 
         return View::render(

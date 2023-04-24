@@ -10,9 +10,8 @@ class Login extends AbstractAdminPage
     {
         $arguments = [
             'title' => 'Blog: Admin Login',
-            'baseUrl' => URL,
             'actionFormUrl' => '',
-            'registerPath' => 'admin/register'
+            'registerPath' => 'register'
         ];
 
         return View::render(

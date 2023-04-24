@@ -10,7 +10,6 @@ class Save extends \App\Controller\Admin\AbstractAdminPage
     {
         $arguments = [
             'title' => 'Nova Categoria',
-            'baseUrl' => URL . '/admin',
             'categorySavePath' => 'categories/save',
             'categorySavePost' => '',
             'categoryDeletePath' => 'categories/delete',

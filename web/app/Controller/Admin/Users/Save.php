@@ -10,7 +10,6 @@ class Save extends \App\Controller\Admin\AbstractAdminPage
     {
         $arguments = [
             'title' => 'Novo Usuário',
-            'baseUrl' => URL . '/admin',
             'userSavePath' => 'users/save',
             'userSavePost' => '',
             'userDeletePath' => 'users/delete',

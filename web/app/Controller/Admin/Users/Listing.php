@@ -10,7 +10,6 @@ class Listing extends \App\Controller\Admin\AbstractAdminPage
     {
         $arguments = [
             'title' => 'Listagem dos Usuários',
-            'baseUrl' => URL . '/admin',
             'userSavePath' => 'users/save',
             'userDeletePath' => 'users/delete',
             'userListingPath' => 'users/listing'

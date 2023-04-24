@@ -10,7 +10,6 @@ class Listing extends \App\Controller\Admin\AbstractAdminPage
     {
         $arguments = [
             'title' => 'Listagem das Categorias',
-            'baseUrl' => URL . '/admin',
             'categorySavePath' => 'categories/save',
             'categoryDeletePath' => 'categories/delete',
             'categoryListingPath' => 'categories/listing'

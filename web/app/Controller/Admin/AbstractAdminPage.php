@@ -16,8 +16,7 @@ abstract class AbstractAdminPage
             'title' => $title,
             'sidebar' => self::getAdminSidebar(),
             'content' => $content,
-            'footer' => self::getAdminFooter(),
-            'baseUrl' => URL . '/admin'
+            'footer' => self::getAdminFooter()
         ];
 
         return View::render(

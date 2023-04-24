@@ -10,7 +10,6 @@ class Listing extends \App\Controller\Admin\AbstractAdminPage
     {
         $arguments = [
             'title' => 'Listagem das Postasgens',
-            'baseUrl' => URL . '/admin',
             'postSavePath' => 'posts/save',
             'postDeletePath' => 'posts/delete',
             'postListingPath' => 'posts/listing'

@@ -9,8 +9,7 @@ class Home extends AbstractPage
     public static function getContentPage(): string
     {
         $arguments = [
-            'title' => 'Blog: Página Inicial',
-            'baseUrl' => URL
+            'title' => 'Blog: Página Inicial'
         ];
 
         $content = View::render(

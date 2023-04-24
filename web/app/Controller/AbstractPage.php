@@ -16,8 +16,7 @@ abstract class AbstractPage
             'title' => $title,
             'header' => self::getHeader(),
             'content' => $content,
-            'footer' => self::getFooter(),
-            'baseUrl' => URL
+            'footer' => self::getFooter()
         ];
 
         return View::render(
