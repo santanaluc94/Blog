@@ -22,7 +22,13 @@ $router->get('/admin/posts/listing', [
 ]);
 
 $router->get('/admin/posts/save/{id}', [
-    function (int $id) {
+    function () {
+        return new Response(200, \App\Controller\Admin\Posts\Save::getAdminContentPage());
+    }
+]);
+
+$router->get('/admin/posts/save', [
+    function () {
         return new Response(200, \App\Controller\Admin\Posts\Save::getAdminContentPage());
     }
 ]);
@@ -34,7 +40,13 @@ $router->get('/admin/categories/listing', [
 ]);
 
 $router->get('/admin/categories/save/{id}', [
-    function (int $id) {
+    function () {
+        return new Response(200, \App\Controller\Admin\Categories\Save::getAdminContentPage());
+    }
+]);
+
+$router->get('/admin/categories/save', [
+    function () {
         return new Response(200, \App\Controller\Admin\Categories\Save::getAdminContentPage());
     }
 ]);
@@ -46,7 +58,13 @@ $router->get('/admin/users/listing', [
 ]);
 
 $router->get('/admin/users/save/{id}', [
-    function (int $id) {
+    function () {
+        return new Response(200, \App\Controller\Admin\Users\Save::getAdminContentPage());
+    }
+]);
+
+$router->get('/admin/users/save', [
+    function () {
         return new Response(200, \App\Controller\Admin\Users\Save::getAdminContentPage());
     }
 ]);
@@ -58,7 +76,13 @@ $router->get('/admin/pages/listing', [
 ]);
 
 $router->get('/admin/pages/save/{id}', [
-    function (int $id) {
+    function () {
+        return new Response(200, \App\Controller\Admin\Pages\Save::getAdminContentPage());
+    }
+]);
+
+$router->get('/admin/pages/save', [
+    function () {
         return new Response(200, \App\Controller\Admin\Pages\Save::getAdminContentPage());
     }
 ]);

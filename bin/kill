@@ -1,4 +1,6 @@
 #!/bin/bash
+sudo mv ./web/.env ./.env
 docker compose down
+sudo mv ./.env ./.env.example
 sudo rm -Rf ./web/vendor/
 sudo rm ./web/composer.lock
