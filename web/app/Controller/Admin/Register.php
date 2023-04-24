@@ -4,19 +4,19 @@ namespace App\Controller\Admin;
 
 use App\View\View;
 
-class Login extends AbstractAdminPage
+class Register extends AbstractAdminPage
 {
     public static function getAdminContentPage(): string
     {
         $arguments = [
-            'title' => 'Blog: Admin Login',
+            'title' => 'Blog: Register',
             'baseUrl' => URL,
             'actionFormUrl' => '',
-            'registerPath' => 'admin/register'
+            'loginPath' => 'admin/login'
         ];
 
         return View::render(
-            'login',
+            'register',
             self::AREA_ADMIN_HOMEPAGE,
             $arguments
         );

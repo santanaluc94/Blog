@@ -78,3 +78,24 @@ Senha: admin123
 ### Site
 
 Para acessar o projeto, basta acessar a URL `http::localhost/`.
+
+---
+
+## Tabelas
+
+
+### Postagens
+
+| id          | int      |
+|-------------|----------|
+| title       | string   |
+| category_id | int      |
+| user_id     | int      |
+| status      | int      |
+| text        | blob     |
+| created_at  | datetime |
+| updated_at  | datetime |
+
+### Categorias
+### Páginas
+### Usuários

@@ -10,7 +10,7 @@ class Home extends AbstractPage
     {
         $arguments = [
             'title' => 'Blog: Página Inicial',
-            'baseUrl' => 'http://localhost/'
+            'baseUrl' => URL
         ];
 
         $content = View::render(

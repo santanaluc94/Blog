@@ -16,25 +16,31 @@
         class="bg-primary bg-gradient w-100 p-3 h-100 d-inline-block position-fixed d-flex align-items-center justify-content-center">
         <article class="card" style="width: 25rem;">
             <div class="card-body">
-                <h3 class="card-title">Admin Login</h3>
+                <h3 class="card-title">Cadastre-se</h3>
 
                 <form method="POST" action="{{baseUrl}}/{{actionFormUrl}}" class="mt-4">
                     <div class="mb-3">
-                        <label for="admin_email" class="form-label">E-mail</label>
-                        <input type="email" class="form-control" id="admin_email">
+                        <label for="user_fullname" class="form-label">Nome Completo</label>
+                        <input type="email" class="form-control" id="user_fullname">
                     </div>
+
                     <div class="mb-3">
-                        <label for="admin_password" class="form-label">Senha</label>
-                        <input type="password" class="form-control" id="admin_password">
+                        <label for="user_email" class="form-label">E-mail</label>
+                        <input type="email" class="form-control" id="user_email">
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="user_password" class="form-label">Senha</label>
+                        <input type="password" class="form-control" id="user_password">
                     </div>
 
                     <div class="mt-5 w-auto d-flex flex-column">
                         <div class="pb-3 d-flex justify-content-center">
-                            <button type="submit" class="btn btn-primary w-75">Entrar</button>
+                            <button type="submit" class="btn btn-primary w-75">Cadastrar</button>
                         </div>
                         <div class="d-flex justify-content-center">
-                            <a class="btn btn-outline-secondary w-75" href="{{baseUrl}}/{{registerPath}}"
-                                role="button">Cadastre-se</a>
+                            <a class="btn btn-outline-secondary w-75" href="{{baseUrl}}/{{loginPath}}"
+                                role="button">Admin Login</a>
                         </div>
                     </div>
                 </form>

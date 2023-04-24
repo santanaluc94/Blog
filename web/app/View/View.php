@@ -19,8 +19,10 @@ class View
         return str_replace($keys, array_values($arguments), $contentView);
     }
 
-    private static function getContentView(string $viewName, string $area = 'front'): string
-    {
+    private static function getContentView(
+        string $viewName,
+        string $area = 'front'
+    ): string {
         $file = __DIR__ . '/' . $area . '/' . $viewName . '.html';
         return file_exists($file) ? file_get_contents($file) : '';
     }

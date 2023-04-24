@@ -14,27 +14,39 @@ abstract class AbstractAdminPage
     ): string {
         $arguments = [
             'title' => $title,
-            'header' => self::getAdminHeader(),
+            'sidebar' => self::getAdminSidebar(),
             'content' => $content,
             'footer' => self::getAdminFooter(),
-            'baseUrl' => 'http://localhost/'
+            'baseUrl' => URL . '/admin'
         ];
 
         return View::render(
-            'admin/page',
+            'page',
             self::AREA_ADMIN_HOMEPAGE,
             $arguments
         );
     }
 
-    protected static function getAdminHeader(): string
+    protected static function getAdminSidebar(): string
     {
-        return View::render('header');
+        $arguments = [
+            'postListingPath' => 'posts/listing',
+            'categoriesListingPath' => 'categories/listing',
+            'usersListingPath' => 'users/listing',
+            'pagesListingPath' => 'pages/listing',
+            'logoutPath' => 'logout'
+        ];
+
+        return View::render(
+            'sidebar',
+            self::AREA_ADMIN_HOMEPAGE,
+            $arguments
+        );
     }
 
     protected static function getAdminFooter(): string
     {
-        return View::render('footer');
+        return View::render('footer', self::AREA_ADMIN_HOMEPAGE);
     }
 
     abstract public static function getAdminContentPage(): string;

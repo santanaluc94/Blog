@@ -10,7 +10,7 @@ class AllPosts extends AbstractPage
     {
         $arguments = [
             'title' => 'Blog: Totos as postagens',
-            'baseUrl' => 'http://localhost/'
+            'baseUrl' => URL
         ];
 
         $content = View::render(

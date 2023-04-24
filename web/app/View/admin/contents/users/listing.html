@@ -1,0 +1,66 @@
+<section class="container-fluid text-center">
+    <div class="row">
+        <div class="col-auto me-auto">
+            <h2>{{title}}</h2>
+        </div>
+        <div class="col-auto">
+            <a href="{{baseUrl}}/{{userSavePath}}" role="button" class="btn btn-primary">Novo Usuário</a>
+        </div>
+    </div>
+</section>
+
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th scope="col">ID</th>
+            <th scope="col">Nome</th>
+            <th scope="col">E-mail</th>
+            <th scope="col">Cargo</th>
+            <th scope="col">Criado em</th>
+            <th scope="col">Atualizado em</th>
+            <th scope="col"></th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <th scope="row">1</th>
+            <td>Nome Completo do Usuário via código</td>
+            <td>email@test.com</td>
+            <td>Administrador</td>
+            <td>12/12/2022</td>
+            <td>13/12/2022</td>
+            <td class="d-grid gap-2 d-md-flex justify-content-md-end">
+                <a href="{{baseUrl}}/{{userSavePath}}/id/" role="button" class="btn btn-sm btn-primary">Editar</a>
+                <a href="{{baseUrl}}/{{userDeletePath}}/id/" role="button" class="btn btn-sm btn-danger">Remover</a>
+            </td>
+        </tr>
+        <tr>
+            <th scope="row">2</th>
+            <td>Nome Completo do Usuário via código</td>
+            <td>email@test.com</td>
+            <td>Administrador</td>
+            <td>12/12/2022</td>
+            <td>13/12/2022</td>
+            <td class="d-grid gap-2 d-md-flex justify-content-md-end">
+                <a href="{{baseUrl}}/{{userSavePath}}/id/" role="button" class="btn btn-sm btn-primary">Editar</a>
+                <a href="{{baseUrl}}/{{userDeletePath}}/id/" role="button" class="btn btn-sm btn-danger">Remover</a>
+            </td>
+        </tr>
+    </tbody>
+</table>
+
+<nav aria-label="Page navigation example" class="mt-5">
+    <ul class="pagination justify-content-center">
+        <li class="page-item">
+            <a class="page-link" href="#" aria-label="Previous">
+                <span aria-hidden="true">&laquo;</span>
+            </a>
+        </li>
+        <li class="page-item"><a class="page-link" href="{{baseUrl}}/{{userListingPath}}?p=">1</a></li>
+        <li class="page-item">
+            <a class="page-link" href="#" aria-label="Next">
+                <span aria-hidden="true">&raquo;</span>
+            </a>
+        </li>
+    </ul>
+</nav>

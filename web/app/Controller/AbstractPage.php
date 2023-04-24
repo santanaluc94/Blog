@@ -17,7 +17,7 @@ abstract class AbstractPage
             'header' => self::getHeader(),
             'content' => $content,
             'footer' => self::getFooter(),
-            'baseUrl' => 'http://localhost/'
+            'baseUrl' => URL
         ];
 
         return View::render(
