@@ -46,8 +46,7 @@ class Repository extends AbstractDatabase implements RepositoryInterface
     public function load(int $id): ?Entity
     {
         try {
-            $where = "id={$id}";
-            $entityData = $this->selectById($where);
+            $entityData = $this->selectById($id);
 
             if (!isset($entityData['id']) && is_null($entityData['id'])) {
                 throw new \Exception(
@@ -66,8 +65,7 @@ class Repository extends AbstractDatabase implements RepositoryInterface
 
     public function removeById(int $id): bool
     {
-        $where = "id={$id}";
-        return $this->delete($where);
+        return $this->deleteById($id);
     }
 
     public function getCollection(): ?array

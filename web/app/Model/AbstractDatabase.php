@@ -66,9 +66,16 @@ abstract class AbstractDatabase
         return $this->execute($query)->fetchAll(PDO::FETCH_ASSOC);
     }
 
-    protected function selectById(?string $where = null): array
+    protected function selectById(int $id): array
     {
-        $query = "SELECT * FROM {$this->db}.{$this->table} WHERE {$where};";
+        if (!isset($values['id']) || !$values['id']) {
+            throw new Exception(
+                'É necessário um ID para buscar um objeto específico do tipo entidade.',
+                400
+            );
+        }
+
+        $query = "SELECT * FROM {$this->db}.{$this->table} WHERE id = {$id};";
 
         return $this->execute($query)->fetch(PDO::FETCH_ASSOC);
     }
@@ -110,10 +117,10 @@ abstract class AbstractDatabase
         return $this->selectById($where);
     }
 
-    protected function delete(?string $where = null): bool
+    protected function deleteById(int $id): bool
     {
         try {
-            $query = "DELETE FROM {$this->db}.{$this->table} WHERE {$where};";
+            $query = "DELETE FROM {$this->db}.{$this->table} WHERE id = {$id};";
 
             $this->execute($query);
 
