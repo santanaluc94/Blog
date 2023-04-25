@@ -1,21 +1,8 @@
 <?php
 
 use App\Http\Router;
-use App\View\View;
-use App\Setup\Env;
 
-require __DIR__ . '/vendor/autoload.php';
-
-Env::load(__DIR__);
-
-define('URL', getenv('URL'));
-
-$env = getenv();
-
-View::init([
-    'baseUrl' => URL,
-    'baseAdminUrl' => URL . '/admin',
-]);
+include __DIR__ . '/app/bootstrap.php';
 
 $router = new Router(URL);
 

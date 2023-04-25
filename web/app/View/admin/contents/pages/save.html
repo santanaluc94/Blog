@@ -13,7 +13,17 @@
     <section class="mt-5">
         <div class="mb-3">
             <label for="page_title" class="form-label">Título</label>
-            <input type="email" class="form-control" id="page_title">
+            <input type="text" class="form-control" id="page_title">
+        </div>
+
+        <div class="mb-3">
+            <label for="page_status" class="form-label">Status</label>
+            <input class="form-control" list="status_list" id="page_status">
+            <datalist id="status_list">
+                <option value="Em Revisão">
+                <option value="Para Aprovar">
+                <option value="Publicar">
+            </datalist>
         </div>
 
         <div class="mb-3">

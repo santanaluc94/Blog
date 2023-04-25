@@ -86,16 +86,64 @@ Para acessar o projeto, basta acessar a URL `http::localhost/`.
 
 ### Postagens
 
-| id          | int      |
+| Columns     | Type     |
 |-------------|----------|
+| id          | int      |
 | title       | string   |
 | category_id | int      |
 | user_id     | int      |
 | status      | int      |
-| text        | blob     |
+| content     | blob     |
 | created_at  | datetime |
 | updated_at  | datetime |
 
 ### Categorias
-### Páginas
+
+| Columns     | Type     |
+|-------------|----------|
+| id          | int      |
+| name        | string   |
+| slug        | string   |
+| created_at  | datetime |
+| updated_at  | datetime |
+
 ### Usuários
+
+| Columns      | Type     |
+|--------------|----------|
+| id           | int      |
+| firstname    | string   |
+| lastname     | string   |
+| email        | string   |
+| password     | string   |
+| created_at   | datetime |
+| updated_at   | datetime |
+
+### Páginas
+
+| Columns     | Type     |
+|-------------|----------|
+| id          | int      |
+| title       | string   |
+| content     | blob     |
+| status      | int      |
+| user_id     | int      |
+| created_at  | datetime |
+| updated_at  | datetime |
+
+### Papéis de Usuários
+
+| Columns     | Type     |
+|-------------|----------|
+| id          | int      |
+| user_id     | int      |
+| role_id     | int      |
+
+### Papéis
+
+| Columns     | Type     |
+|-------------|----------|
+| id          | int      |
+| name        | string   |
+| roles       | json     |
+| is_enabled  | bool     |
