@@ -2,25 +2,22 @@
 
 namespace App\Controller\Admin\Roles;
 
-use App\View\View;
 use App\Http\Request;
-use App\Model\Pagination;
 use App\Model\Role\Repository;
+use App\Model\Pagination;
+use App\View\View;
 use App\Model\Role\Entity;
 
 class Listing extends \App\Controller\Admin\AbstractAdminPage
 {
     protected const QTY_COLUMNS = 4;
 
-    protected static string $items = '';
-    protected static string $emptyList = '';
-
     public static function execute(Request $request): string
     {
         $currentPage = (int) $request->getQueryParam('p') ?? 1;
 
         $roleRepository = new Repository();
-        $tableSize = $roleRepository->getSize();
+        $tableSize = $roleRepository->count();
 
         $pagination = new Pagination('roles/listing', $tableSize, $currentPage);
 
@@ -28,7 +25,7 @@ class Listing extends \App\Controller\Admin\AbstractAdminPage
             '*',
             null,
             null,
-            $pagination->getLimit(),
+            $pagination->getLimit()
         );
 
         $roleCollection ?

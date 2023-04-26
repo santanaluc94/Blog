@@ -3,6 +3,8 @@
 namespace App\Model\Post;
 
 use App\Model\EntityInterface;
+use App\Model\User\Repository as UserRepository;
+use App\Model\Category\Repository as CategoryRepository;
 
 class Entity implements EntityInterface
 {
@@ -14,6 +16,14 @@ class Entity implements EntityInterface
     public const CONTENT = 'content';
     public const CREATED_AT = 'created_at';
     public const UPDATED_AT = 'updated_at';
+
+    public const VALID_STATUS = [
+        0 => 'Rascunho',
+        1 => 'Aguardando Aprovação',
+        2 => 'Aprovado',
+        3 => 'Publicado',
+        4 => 'Reprovado'
+    ];
 
     protected ?string $createdAt;
     protected ?string $updatedAt;
@@ -78,6 +88,35 @@ class Entity implements EntityInterface
     {
         $this->updatedAt = $updatedAt;
         return $this;
+    }
+
+    public function getUserName(): string
+    {
+        $userId = $this->getUserId();
+
+        $userRepository = new UserRepository();
+        $user = $userRepository->load($userId);
+        return $user->getFullname();
+    }
+
+    public function getCategoryName(): string
+    {
+        $categoryId = $this->getCategoryId();
+
+        $categoryRepository = new CategoryRepository();
+        $category = $categoryRepository->load($categoryId);
+        return $category->getName();
+    }
+
+    public function getStatusName(): string
+    {
+        $status = $this->getStatus();
+
+        if (in_array($status, self::VALID_STATUS)) {
+            return self::VALID_STATUS[$status];
+        }
+
+        return 'Sem status válido';
     }
 
     public function getData(): array

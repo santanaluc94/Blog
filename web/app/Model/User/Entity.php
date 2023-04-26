@@ -3,6 +3,7 @@
 namespace App\Model\User;
 
 use App\Model\EntityInterface;
+use App\Model\Role\Repository as RoleRepository;
 
 class Entity implements EntityInterface
 {
@@ -71,6 +72,20 @@ class Entity implements EntityInterface
     {
         $this->updatedAt = $updatedAt;
         return $this;
+    }
+
+    public function getFullname(): string
+    {
+        return $this->getFirstname() . ' ' . $this->getLastname();
+    }
+
+    public function getRoleName(): string
+    {
+        $roleId = $this->getRoleId();
+
+        $roleRepository = new RoleRepository();
+        $role = $roleRepository->load($roleId);
+        return $role->getName();
     }
 
     public function getData(): array

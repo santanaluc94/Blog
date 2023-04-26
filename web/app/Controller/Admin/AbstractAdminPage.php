@@ -9,6 +9,9 @@ abstract class AbstractAdminPage
 {
     public const AREA_ADMIN_HOMEPAGE = 'admin';
 
+    protected static string $items = '';
+    protected static string $emptyList = '';
+
     public static function getAdminPage(
         string $title,
         string $content

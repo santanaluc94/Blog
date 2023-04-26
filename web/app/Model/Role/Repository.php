@@ -82,8 +82,10 @@ class Repository extends AbstractDatabase implements RepositoryInterface
                 $offset
             );
 
+            $collection = [];
+
             if (!count($collectionData)) {
-                return [];
+                return $collection;
             }
 
             foreach ($collectionData as $entityData) {
@@ -96,11 +98,6 @@ class Repository extends AbstractDatabase implements RepositoryInterface
         }
 
         return null;
-    }
-
-    public function getSize(): int
-    {
-        return $this->count();
     }
 
     protected function populateEntityWithData(array $entityData): Entity

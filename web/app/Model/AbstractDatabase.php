@@ -142,7 +142,7 @@ abstract class AbstractDatabase
         }
     }
 
-    protected function count(): int
+    public function count(): int
     {
         $query = "SELECT COUNT(*) FROM {$this->db}.{$this->table};";
 

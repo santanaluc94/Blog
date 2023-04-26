@@ -26,7 +26,7 @@ class Pagination
     {
         $this->qtyPages = $this->results > 0 ?
             ceil($tableSize / self::DEFAULT_LISTING_SIZE) :
-            0;
+            1;
 
         $this->currentPage = ($this->currentPage <= $this->qtyPages) ?
             $this->currentPage :

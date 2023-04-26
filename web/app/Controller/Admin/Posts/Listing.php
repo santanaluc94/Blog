@@ -2,18 +2,44 @@
 
 namespace App\Controller\Admin\Posts;
 
-use App\View\View;
 use App\Http\Request;
+use App\Model\Post\Repository;
+use App\Model\Pagination;
+use App\View\View;
+use App\Model\Post\Entity;
 
 class Listing extends \App\Controller\Admin\AbstractAdminPage
 {
+    protected const QTY_COLUMNS = 7;
+
     public static function execute(Request $request): string
     {
+        $currentPage = (int) $request->getQueryParam('p') ?? 1;
+
+        $postRepository = new Repository();
+        $tableSize = $postRepository->count();
+
+        $pagination = new Pagination('posts/listing', $tableSize, $currentPage);
+
+        $postCollection = $postRepository->getCollection(
+            '*',
+            null,
+            null,
+            $pagination->getLimit()
+        );
+
+        $postCollection ?
+            self::$items = self::renderItems($postCollection) :
+            self::$emptyList = self::getEmptyItems();
+
         $arguments = [
             'title' => 'Listagem das Postasgens',
             'postSavePath' => 'posts/save',
             'postDeletePath' => 'posts/delete',
-            'postListingPath' => 'posts/listing'
+            'postListingPath' => 'posts/listing',
+            'items' => self::$items,
+            'emptyList' => self::$emptyList,
+            'pagination' => $pagination->getPaginationHtml()
         ];
 
         $content = View::render(
@@ -25,6 +51,39 @@ class Listing extends \App\Controller\Admin\AbstractAdminPage
         return parent::getAdminPage(
             $arguments['title'],
             $content
+        );
+    }
+
+    protected static function renderItems(array $postCollection): string
+    {
+        /** @var Entity $post */
+        foreach ($postCollection as $post) {
+            self::$items .= View::render(
+                'contents/posts/item',
+                self::AREA_ADMIN_HOMEPAGE,
+                [
+                    'postSavePath' => 'posts/save',
+                    'postDeletePath' => 'posts/deletePost',
+                    'id' => $post->getId(),
+                    'title' => $post->getTitle(),
+                    'userName' => $post->getUserName(),
+                    'categoryName' => $post->getCategoryName(),
+                    'status' => $post->getStatusName(),
+                    'created_at' => $post->getCreatedAt(),
+                    'updated_at' => $post->getUpdatedAt()
+                ]
+            );
+        }
+
+        return self::$items;
+    }
+
+    protected static function getEmptyItems(): string
+    {
+        return View::render(
+            'emptyList',
+            self::AREA_ADMIN_HOMEPAGE,
+            ['qtyColumns' => self::QTY_COLUMNS]
         );
     }
 }

@@ -66,13 +66,26 @@ class Repository extends AbstractDatabase implements RepositoryInterface
         return $this->deleteById($id);
     }
 
-    public function getCollection(): ?array
-    {
+    public function getCollection(
+        string $fields = '*',
+        ?string $where = null,
+        ?string $order = null,
+        ?string $limit = null,
+        ?string $offset = null
+    ): ?array {
         try {
-            $collectionData = $this->select();
+            $collectionData = $this->select(
+                $fields,
+                $where,
+                $order,
+                $limit,
+                $offset
+            );
 
-            if (count($collectionData)) {
-                return [];
+            $collection = [];
+
+            if (!count($collectionData)) {
+                return $collection;
             }
 
             foreach ($collectionData as $entityData) {

@@ -14,7 +14,6 @@
         <tr>
             <th scope="col">ID</th>
             <th scope="col">Nome</th>
-            <th scope="col">Sobrenome</th>
             <th scope="col">E-mail</th>
             <th scope="col">Cargo</th>
             <th scope="col">Criado em</th>
@@ -23,47 +22,9 @@
         </tr>
     </thead>
     <tbody>
-        <tr>
-            <th scope="row">1</th>
-            <td>Nome do Usuário via código</td>
-            <td>Sobrenome Completo do Usuário via código</td>
-            <td>email@test.com</td>
-            <td>Administrador</td>
-            <td>12/12/2022</td>
-            <td>13/12/2022</td>
-            <td class="d-grid gap-2 d-md-flex justify-content-md-end">
-                <a href="{{baseAdminUrl}}/{{userSavePath}}/" role="button" class="btn btn-sm btn-primary">Editar</a>
-                <a href="{{baseAdminUrl}}/{{userDeletePath}}/" role="button" class="btn btn-sm btn-danger">Remover</a>
-            </td>
-        </tr>
-        <tr>
-            <th scope="row">2</th>
-            <td>Nome do Usuário via código</td>
-            <td>Sobrenome Completo do Usuário via código</td>
-            <td>email@test.com</td>
-            <td>Administrador</td>
-            <td>12/12/2022</td>
-            <td>13/12/2022</td>
-            <td class="d-grid gap-2 d-md-flex justify-content-md-end">
-                <a href="{{baseAdminUrl}}/{{userSavePath}}/" role="button" class="btn btn-sm btn-primary">Editar</a>
-                <a href="{{baseAdminUrl}}/{{userDeletePath}}/" role="button" class="btn btn-sm btn-danger">Remover</a>
-            </td>
-        </tr>
+        {{items}}
+        {{emptyList}}
     </tbody>
 </table>
 
-<nav aria-label="Page navigation example" class="mt-5">
-    <ul class="pagination justify-content-center">
-        <li class="page-item">
-            <a class="page-link" href="#" aria-label="Previous">
-                <span aria-hidden="true">&laquo;</span>
-            </a>
-        </li>
-        <li class="page-item"><a class="page-link" href="{{baseAdminUrl}}/{{userListingPath}}?p=">1</a></li>
-        <li class="page-item">
-            <a class="page-link" href="#" aria-label="Next">
-                <span aria-hidden="true">&raquo;</span>
-            </a>
-        </li>
-    </ul>
-</nav>
+{{pagination}}
