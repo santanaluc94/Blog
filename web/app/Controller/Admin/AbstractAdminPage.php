@@ -3,6 +3,7 @@
 namespace App\Controller\Admin;
 
 use App\View\View;
+use App\Http\Request;
 
 abstract class AbstractAdminPage
 {
@@ -29,10 +30,11 @@ abstract class AbstractAdminPage
     protected static function getAdminSidebar(): string
     {
         $arguments = [
-            'postListingPath' => 'posts/listing',
             'categoriesListingPath' => 'categories/listing',
-            'usersListingPath' => 'users/listing',
             'pagesListingPath' => 'pages/listing',
+            'postListingPath' => 'posts/listing',
+            'rolesListingPath' => 'roles/listing',
+            'usersListingPath' => 'users/listing',
             'logoutPath' => 'logout'
         ];
 
@@ -48,5 +50,5 @@ abstract class AbstractAdminPage
         return View::render('footer', self::AREA_ADMIN_HOMEPAGE);
     }
 
-    abstract public static function getAdminContentPage(): string;
+    abstract public static function execute(Request $request): string;
 }

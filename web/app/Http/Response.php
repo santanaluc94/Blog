@@ -28,6 +28,10 @@ class Response
             case 'text/html':
                 echo $this->content;
                 break;
+            case 'application/x-httpd-php':
+                header("Location: {$this->content}");
+                exit();
+                break;
         }
     }
 }

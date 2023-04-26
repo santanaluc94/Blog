@@ -3,10 +3,11 @@
 namespace App\Controller;
 
 use App\View\View;
+use App\Http\Request;
 
 class Home extends AbstractPage
 {
-    public static function getContentPage(): string
+    public static function execute(Request $request): string
     {
         $arguments = [
             'title' => 'Blog: Página Inicial'

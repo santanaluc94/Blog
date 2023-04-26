@@ -1,88 +1,108 @@
 <?php
 
+use App\Controller\Admin;
 use App\Http\Response;
 
 /** @var \App\Http\Router $router */
+$router->post('/admin/roles/savePost/{id}', [
+    'controller' => function ($request) {
+        return new Response(
+            200,
+            Admin\Roles\SavePost::execute($request),
+            'application/x-httpd-php'
+        );
+    }
+]);
+
+$router->post('/admin/users/savePost/{id}', [
+    'controller' => function ($request) {
+        return new Response(
+            200,
+            Admin\Users\SavePost::execute($request),
+            'application/x-httpd-php'
+        );
+    }
+]);
+
 $router->get('/admin/login', [
-    function () {
-        return new Response(200, \App\Controller\Admin\Login::getAdminContentPage());
+    'controller' => function ($request) {
+        return new Response(200, Admin\Login::execute($request));
     }
 ]);
 
 $router->get('/admin/register', [
-    function () {
-        return new Response(200, \App\Controller\Admin\Register::getAdminContentPage());
+    'controller' => function ($request) {
+        return new Response(200, Admin\Register::execute($request));
     }
 ]);
 
 $router->get('/admin/posts/listing', [
-    function () {
-        return new Response(200, \App\Controller\Admin\Posts\Listing::getAdminContentPage());
+    'controller' => function ($request) {
+        return new Response(200, Admin\Posts\Listing::execute($request));
     }
 ]);
 
 $router->get('/admin/posts/save/{id}', [
-    function () {
-        return new Response(200, \App\Controller\Admin\Posts\Save::getAdminContentPage());
-    }
-]);
-
-$router->get('/admin/posts/save', [
-    function () {
-        return new Response(200, \App\Controller\Admin\Posts\Save::getAdminContentPage());
+    'controller' => function ($request) {
+        return new Response(200, Admin\Posts\Save::execute($request));
     }
 ]);
 
 $router->get('/admin/categories/listing', [
-    function () {
-        return new Response(200, \App\Controller\Admin\Categories\Listing::getAdminContentPage());
+    'controller' => function ($request) {
+        return new Response(200, Admin\Categories\Listing::execute($request));
     }
 ]);
 
 $router->get('/admin/categories/save/{id}', [
-    function () {
-        return new Response(200, \App\Controller\Admin\Categories\Save::getAdminContentPage());
-    }
-]);
-
-$router->get('/admin/categories/save', [
-    function () {
-        return new Response(200, \App\Controller\Admin\Categories\Save::getAdminContentPage());
+    'controller' => function ($request) {
+        return new Response(200, Admin\Categories\Save::execute($request));
     }
 ]);
 
 $router->get('/admin/users/listing', [
-    function () {
-        return new Response(200, \App\Controller\Admin\Users\Listing::getAdminContentPage());
+    'controller' => function ($request) {
+        return new Response(200, Admin\Users\Listing::execute($request));
     }
 ]);
 
 $router->get('/admin/users/save/{id}', [
-    function () {
-        return new Response(200, \App\Controller\Admin\Users\Save::getAdminContentPage());
-    }
-]);
-
-$router->get('/admin/users/save', [
-    function () {
-        return new Response(200, \App\Controller\Admin\Users\Save::getAdminContentPage());
+    'controller' => function ($request) {
+        return new Response(200, Admin\Users\Save::execute($request));
     }
 ]);
 
 $router->get('/admin/pages/listing', [
-    function () {
-        return new Response(200, \App\Controller\Admin\Pages\Listing::getAdminContentPage());
+    'controller' => function ($request) {
+        return new Response(200, Admin\Pages\Listing::execute($request));
     }
 ]);
 
 $router->get('/admin/pages/save/{id}', [
-    function () {
-        return new Response(200, \App\Controller\Admin\Pages\Save::getAdminContentPage());
+    'controller' => function ($request) {
+        return new Response(200, Admin\Pages\Save::execute($request));
     }
 ]);
 
-$router->get('/admin/pages/save', [
-    function () {
-        return new Response(200, \App\Controller\Admin\Pages\Save::getAdminContentPage());
+$router->get('/admin/roles/listing', [
+    'controller' => function ($request) {
+        return new Response(200, Admin\Roles\Listing::execute($request));
+    }
+]);
+
+$router->get('/admin/roles/save/{id}', [
+    'controller' => function ($request) {
+        return new Response(200, Admin\Roles\Save::execute($request));
+    }
+]);
+
+/** @var \App\Http\Router $router */
+$router->get('/admin/roles/deletePost/{id}', [
+    'controller' => function ($request) {
+        return new Response(
+            200,
+            Admin\Roles\DeletePost::execute($request),
+            'application/x-httpd-php'
+        );
     }
 ]);

@@ -3,10 +3,11 @@
 namespace App\Controller\Admin\Posts;
 
 use App\View\View;
+use App\Http\Request;
 
 class Listing extends \App\Controller\Admin\AbstractAdminPage
 {
-    public static function getAdminContentPage(): string
+    public static function execute(Request $request): string
     {
         $arguments = [
             'title' => 'Listagem das Postasgens',

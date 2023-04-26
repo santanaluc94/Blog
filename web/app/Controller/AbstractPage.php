@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\View\View;
+use App\Http\Request;
 
 abstract class AbstractPage
 {
@@ -36,5 +37,5 @@ abstract class AbstractPage
         return View::render('footer');
     }
 
-    abstract public static function getContentPage(): string;
+    abstract public static function execute(Request $request): string;
 }

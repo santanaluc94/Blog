@@ -3,7 +3,6 @@
 namespace App\Http;
 
 use App\Http\Response;
-use Closure;
 use ReflectionFunction;
 use Exception;
 
@@ -19,16 +18,16 @@ class Router
     public function __construct(
         protected string $url
     ) {
-        $this->request = new Request();
+        $this->request = new Request($this);
         $this->setPrefix();
     }
 
-    public function get(string $route, array $params = []): void
+    public function get(string $route, array $params): void
     {
         $this->addRoute(self::GET_METHOD, $route, $params);
     }
 
-    public function post(string $route, array $params = []): void
+    public function post(string $route, array $params): void
     {
         $this->addRoute(self::POST_METHOD, $route, $params);
     }
@@ -66,20 +65,13 @@ class Router
     protected function addRoute(
         string $method,
         string $route,
-        array $params = []
+        array $params
     ): void {
-        foreach ($params as $key => $value) {
-            if ($value instanceof Closure) {
-                $params['controller'] = $value;
-                unset($params[$key]);
-            }
-        }
-
         $params['vars'] = [];
-
         $patternVar = '/{(.*?)}/';
+
         if (preg_match_all($patternVar, $route, $matches)) {
-            $route = preg_replace($patternVar, '(.*?)', $route);
+            $route = preg_replace($patternVar, '?(.*?)', $route);
             $params['vars'] = $matches[1];
         }
 
@@ -96,6 +88,9 @@ class Router
         foreach ($this->routes as $patternRoute => $methods) {
             if (preg_match($patternRoute, $uri, $matches)) {
                 if (isset($methods[$httpMethod])) {
+                    if (isset($matches[1])) {
+                        $this->request->setQueryParam('id', (int) $matches[1]);
+                    }
                     unset($matches[0]);
 
                     $keys = $methods[$httpMethod]['vars'];

@@ -3,10 +3,11 @@
 namespace App\Controller\Admin;
 
 use App\View\View;
+use App\Http\Request;
 
 class Login extends AbstractAdminPage
 {
-    public static function getAdminContentPage(): string
+    public static function execute(Request $request): string
     {
         $arguments = [
             'title' => 'Blog: Admin Login',
