@@ -16,8 +16,18 @@ class Listing extends \App\Controller\Admin\AbstractAdminPage
 
     public static function execute(Request $request): string
     {
+        $currentPage = $request->getQueryParam('p') ?? 1;
+
         $roleRepository = new Repository();
-        $roleCollection = $roleRepository->getCollection();
+        $tableSize = $roleRepository->getSize();
+
+        $roleCollection = $roleRepository->getCollection(
+            '*',
+            null,
+            null,
+            $currentPage . "," . self::DEFAULT_LISTING_SIZE
+        );
+
         $roleCollection ?
             self::$items = self::renderItems($roleCollection) :
             self::$emptyList = self::getEmptyItems();
@@ -27,7 +37,9 @@ class Listing extends \App\Controller\Admin\AbstractAdminPage
             'roleListingPath' => 'roles/listing',
             'roleSavePath' => 'roles/save',
             'items' => self::$items,
-            'emptyList' => self::$emptyList
+            'emptyList' => self::$emptyList,
+            'paginationPreviousDisabled' => (!!$currentPage || $currentPage <= 1)? 'disabled' : '',
+            'paginationNextDisabled' => $currentPage >= $tableSize ? --$currentPage : 'disabled',
         ];
 
         $content = View::render(
@@ -69,5 +81,25 @@ class Listing extends \App\Controller\Admin\AbstractAdminPage
             self::AREA_ADMIN_HOMEPAGE,
             ['qtyColumns' => self::QTY_COLUMNS]
         );
+    }
+
+    protected static function renderPagination(array $roleCollection): string
+    {
+        /** @var Entity $role */
+        foreach ($roleCollection as $role) {
+            self::$items .= View::render(
+                'contents/roles/item',
+                self::AREA_ADMIN_HOMEPAGE,
+                [
+                    'roleSavePath' => 'roles/save',
+                    'roleDeletePath' => 'roles/deletePost',
+                    'id' => $role->getId(),
+                    'name' => $role->getName(),
+                    'isEnabled' => $role->getStatus()
+                ]
+            );
+        }
+
+        return self::$items;
     }
 }

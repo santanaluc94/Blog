@@ -14,6 +14,8 @@
     </section>
 
     <section class="mt-5">
+        <input class="" type="text" name="id" value="{{id}}" readonly hidden>
+
         <div class="mb-3">
             <label class="form-label">Nome</label>
             <input type="text" class="form-control" name="role_name" value="{{name}}">
@@ -34,64 +36,72 @@
         <div class="mb-3">
             <label class="form-label">Permissões</label>
             <div class="form-check">
-                <input class="form-check-input" type="checkbox" name="role_permissions[site]">
+                <input class="form-check-input" type="checkbox" name="role_permissions[site]" {{role_permissions_site}}>
                 <label class="form-check-label">Site</label>
             </div>
 
             <div class="form-check">
-                <input class="form-check-input" type="checkbox" name="role_permissions[admin]">
+                <input class="form-check-input" type="checkbox" name="role_permissions[admin]"
+                    {{role_permissions_admin}}>
                 <label class="form-check-label">Admin</label>
 
                 <div class="form-check">
-                    <input class="form-check-input" type="checkbox" name="role_permissions[admin][category]">
+                    <input class="form-check-input" type="checkbox" name="role_permissions[admin][category]"
+                        {{role_permissions_admin_category}}>
                     <label class="form-check-label">Categoria</label>
                     <div class="form-check">
-                        <input class="form-check-input" type="checkbox" name="role_permissions[admin][category][save]">
+                        <input class="form-check-input" type="checkbox" name="role_permissions[admin][category][save]"
+                            {{role_permissions_admin_category_save}}>
                         <label class="form-check-label">Salvar</label>
                     </div>
                     <div class="form-check">
-                        <input class="form-check-input" type="checkbox"
-                            name="role_permissions[admin][category][remove]">
+                        <input class="form-check-input" type="checkbox" name="role_permissions[admin][category][delete]"
+                            {{role_permissions_admin_category_delete}}>
                         <label class="form-check-label">Deletar</label>
                     </div>
                 </div>
 
                 <div class="form-check">
-                    <input class="form-check-input" type="checkbox" name="role_permissions[admin][page]">
+                    <input class="form-check-input" type="checkbox" name="role_permissions[admin][page]"
+                        {{role_permissions_admin_page}}>
                     <label class="form-check-label">Página</label>
                     <div class="form-check">
-                        <input class="form-check-input" type="checkbox" name="role_permissions[admin][category][save]">
+                        <input class="form-check-input" type="checkbox" name="role_permissions[admin][page][save]"
+                            {{role_permissions_admin_page_save}}>
                         <label class="form-check-label">Salvar</label>
                     </div>
                     <div class="form-check">
-                        <input class="form-check-input" type="checkbox"
-                            name="role_permissions[admin][category][remove]">
+                        <input class="form-check-input" type="checkbox" name="role_permissions[admin][page][delete]"
+                            {{role_permissions_admin_page_delete}}>
                         <label class="form-check-label">Deletar</label>
                     </div>
                 </div>
 
                 <div class="form-check">
-                    <input class="form-check-input" type="checkbox" name="role_permissions[admin][post]">
+                    <input class="form-check-input" type="checkbox" name="role_permissions[admin][post]"
+                        {{role_permissions_admin_post}}>
                     <label class="form-check-label">Postagem</label>
                     <div class="form-check">
-                        <input class="form-check-input" type="checkbox" name="role_permissions[admin][post][save]">
+                        <input class="form-check-input" type="checkbox" name="role_permissions[admin][post][save]"
+                            {{role_permissions_admin_post_save}}>
                         <label class="form-check-label">Salvar</label>
                     </div>
                     <div class="form-check">
-                        <input class="form-check-input" type="checkbox" name="role_permissions[admin][post][remove]">
+                        <input class="form-check-input" type="checkbox" name="role_permissions[admin][post][delete]"
+                            {{role_permissions_admin_post_delete}}>
                         <label class="form-check-label">Deletar</label>
                     </div>
                 </div>
 
                 <div class="form-check">
-                    <input class="form-check-input" type="checkbox" name="role_permissions[admin][user]">
+                    <input class="form-check-input" type="checkbox" name="role_permissions[admin][user]" {{role_permissions_admin_user}}>
                     <label class="form-check-label">Usuário</label>
                     <div class="form-check">
-                        <input class="form-check-input" type="checkbox" name="role_permissions[admin][user][save]">
+                        <input class="form-check-input" type="checkbox" name="role_permissions[admin][user][save]" {{role_permissions_admin_user_save}}>
                         <label class="form-check-label">Salvar</label>
                     </div>
                     <div class="form-check">
-                        <input class="form-check-input" type="checkbox" name="role_permissions[admin][user][remove]">
+                        <input class="form-check-input" type="checkbox" name="role_permissions[admin][user][delete]" {{role_permissions_admin_user_delete}}>
                         <label class="form-check-label">Deletar</label>
                     </div>
                 </div>

@@ -25,19 +25,35 @@ class SavePost extends \App\Controller\Admin\AbstractAdminPost
             $name = htmlspecialchars($roleData['role_name']);
             $permissions = str_replace('"on"', 'true', json_encode(filter_var_array($roleData['role_permissions'])));
             $isEnabled = (filter_var($roleData['role_is_enabled'], FILTER_VALIDATE_BOOL)) ? 1 : 0;
-
-            $role = new Entity(
-                $name,
-                $permissions,
-                $isEnabled
-            );
-
             $roleRepository = new Repository();
-            $roleRepository->save($role);
+
+            if (isset($roleData['id']) && is_numeric($roleData['id'])) {
+                $id = filter_var($roleData['id'], FILTER_VALIDATE_INT);
+
+                $entity = $roleRepository->load((int) $roleData['id']);
+                $entity->setId($id)
+                    ->setName($name)
+                    ->setPermissions($permissions)
+                    ->setEnabled($isEnabled);
+            } else {
+                $entity = new Entity(
+                    $name,
+                    $permissions,
+                    $isEnabled
+                );
+            }
+
+            if (!$roleRepository->save($entity)) {
+                throw new Exception(
+                    "Não foi possível salvar o usuário.",
+                    400
+                );
+            }
         } catch (Exception $exception) {
             // TODO: Implementar Log
+            // TODO: Implementar flash messages
         }
 
-        return URL . '/admin/roles/save';
+        return URL . '/admin/roles/listing';
     }
 }

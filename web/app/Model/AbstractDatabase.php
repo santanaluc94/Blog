@@ -136,4 +136,11 @@ abstract class AbstractDatabase
             return false;
         }
     }
+
+    protected function count(): int
+    {
+        $query = "SELECT COUNT(*) FROM {$this->db}.{$this->table};";
+
+        return $this->execute($query)->fetchColumn();
+    }
 }

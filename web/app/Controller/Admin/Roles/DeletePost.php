@@ -19,10 +19,11 @@ class DeletePost extends \App\Controller\Admin\AbstractAdminPost
             }
 
             $roleRepository = new Repository();
+
             if (!$roleRepository->removeById($entityId)) {
                 throw new Exception(
                     "Não foi possível deletar o usuário com o ID {$entityId}.",
-                    404
+                    400
                 );
             }
         } catch (Exception $exception) {

@@ -26,9 +26,21 @@ class Entity implements EntityInterface
         return $this->id;
     }
 
+    public function setId(?int $id): self
+    {
+        $this->id = $id;
+        return $this;
+    }
+
     public function getName(): string
     {
         return $this->name;
+    }
+
+    public function setName(string $name): self
+    {
+        $this->name = $name;
+        return $this;
     }
 
     public function getPermissions(): string
@@ -36,9 +48,21 @@ class Entity implements EntityInterface
         return $this->permissions;
     }
 
+    public function setPermissions(string $permissions): self
+    {
+        $this->permissions = $permissions;
+        return $this;
+    }
+
     public function isEnabled(): int
     {
         return $this->isEnabled;
+    }
+
+    public function setEnabled(int $isEnabled): self
+    {
+        $this->isEnabled = $isEnabled;
+        return $this;
     }
 
     public function getStatus(): string
