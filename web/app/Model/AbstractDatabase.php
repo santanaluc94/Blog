@@ -34,8 +34,7 @@ abstract class AbstractDatabase
             );
             $this->connection->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
         } catch (Exception $exception) {
-            var_dump($exception->getMessage());
-            die('não funcionou a conexão com o banco');
+            // TODO: Implementar Log (Não funcionou a conexão com o banco'.)
         }
     }
 
@@ -46,8 +45,7 @@ abstract class AbstractDatabase
             $pdoStatement->execute($params);
             return $pdoStatement;
         } catch (Exception $exception) {
-            var_dump($exception->getMessage());
-            die('não funcionou a conexão com o banco');
+            // TODO: Implementar Log (Não foi possíel persistir no banco'.)
         }
     }
 
@@ -57,18 +55,28 @@ abstract class AbstractDatabase
         ?string $order = null,
         ?string $limit = null
     ): array {
-        $where = strlen($where) ? "WHERE {$where}" : '';
-        $order = strlen($order) ? "ORDER BY {$order}" : '';
-        $limit = strlen($limit) ? "LIMIT {$limit}" : '';
+        $query = "SELECT {$fields} FROM {$this->db}.{$this->table}";
 
-        $query = "SELECT {$fields} FROM {$this->db}.{$this->table} {$where} {$order} {$limit};";
+        if ($where) {
+            $query .= " {$where}";
+        }
+
+        if ($order) {
+            $query .= "ORDER BY {$order}";
+        }
+
+        if ($limit) {
+            $query .= " LIMIT {$limit}";
+        }
+
+        $query .= ';';
 
         return $this->execute($query)->fetchAll(PDO::FETCH_ASSOC);
     }
 
-    protected function selectById(int $id): array
+    protected function selectById(?int $id): array|bool
     {
-        if (!isset($values['id']) || !$values['id']) {
+        if (!$id) {
             throw new Exception(
                 'É necessário um ID para buscar um objeto específico do tipo entidade.',
                 400
@@ -93,8 +101,7 @@ abstract class AbstractDatabase
             throw new PDOException("Erro ao salvar entidade na tabela {$this->table}.", 400);
         }
 
-        $entityId = (int) $this->connection->lastInsertId();
-        return $this->selectById("id={$entityId}");
+        return $this->selectById((int) $this->connection->lastInsertId());
     }
 
     protected function update(array $values): array
@@ -106,15 +113,15 @@ abstract class AbstractDatabase
             );
         }
 
-        $where = 'id=' . $values['id'];
+        $id = $values['id'];
         unset($values['id']);
         $fields = implode('=?,', array_keys($values)) . '=?';
 
-        $query = "UPDATE {$this->db}.{$this->table} SET {$fields} WHERE {$where};";
+        $query = "UPDATE {$this->db}.{$this->table} SET {$fields} WHERE id = {$id};";
 
         $this->execute($query, array_values($values));
 
-        return $this->selectById($where);
+        return $this->selectById($id);
     }
 
     protected function deleteById(int $id): bool

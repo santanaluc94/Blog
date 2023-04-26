@@ -10,6 +10,7 @@ class Entity implements EntityInterface
     public const FIRSTNAME = 'firstname';
     public const LASTNAME = 'lastname';
     public const EMAIL = 'email';
+    public const ROLE_ID = 'role_id';
     public const CREATED_AT = 'created_at';
     public const UPDATED_AT = 'updated_at';
 
@@ -20,6 +21,7 @@ class Entity implements EntityInterface
         protected string $firstname,
         protected string $lastname,
         protected string $email,
+        protected int $roleId,
         protected ?int $id = null
     ) {
     }
@@ -44,9 +46,14 @@ class Entity implements EntityInterface
         return $this->email;
     }
 
+    public function getRoleId(): int
+    {
+        return $this->roleId;
+    }
+
     public function getCreatedAt(): ?string
     {
-        return $this->createdAt;
+        return $this->createdAt ?? null;
     }
 
     public function setCreatedAt(string $createdAt): self
@@ -57,7 +64,7 @@ class Entity implements EntityInterface
 
     public function getUpdatedAt(): ?string
     {
-        return $this->updatedAt;
+        return $this->updatedAt ?? null;
     }
 
     public function setUpdatedAt(string $updatedAt): self
@@ -71,7 +78,8 @@ class Entity implements EntityInterface
         $data = [
             self::FIRSTNAME => $this->getFirstname(),
             self::LASTNAME => $this->getLastname(),
-            self::EMAIL => $this->getEmail()
+            self::EMAIL => $this->getEmail(),
+            self::ROLE_ID => $this->getRoleId()
         ];
 
         if ($this->getId()) {

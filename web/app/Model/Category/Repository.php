@@ -36,8 +36,7 @@ class Repository extends AbstractDatabase implements RepositoryInterface
 
             return $this->populateEntityWithData($entityData);
         } catch (\Exception $exception) {
-            var_dump($exception->getMessage());
-            die('não funcionou a conexão com o banco');
+            // TODO: Implementar Log
         }
 
         return null;
@@ -56,8 +55,7 @@ class Repository extends AbstractDatabase implements RepositoryInterface
 
             return $this->populateEntityWithData($entityData);
         } catch (\Exception $exception) {
-            var_dump($exception->getMessage());
-            die('não funcionou a conexão com o banco');
+            // TODO: Implementar Log
         }
 
         return null;
@@ -83,8 +81,7 @@ class Repository extends AbstractDatabase implements RepositoryInterface
 
             return $collection;
         } catch (\Exception $exception) {
-            var_dump($exception->getMessage());
-            die('não funcionou a conexão com o banco');
+            // TODO: Implementar Log
         }
 
         return null;
@@ -92,12 +89,12 @@ class Repository extends AbstractDatabase implements RepositoryInterface
 
     protected function populateEntityWithData(array $entityData): Entity
     {
-        return new Entity(
-            $entityData[Entity::ID],
+        $entity = new Entity(
             $entityData[Entity::NAME],
             $entityData[Entity::SLUG],
-            $entityData[Entity::CREATED_AT],
-            $entityData[Entity::UPDATED_AT]
+            $entityData[Entity::ID]
         );
+        return $entity->setCreatedAt($entityData[Entity::CREATED_AT])
+            ->setUpdatedAt($entityData[Entity::UPDATED_AT]);
     }
 }

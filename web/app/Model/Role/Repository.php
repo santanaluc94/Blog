@@ -36,8 +36,7 @@ class Repository extends AbstractDatabase implements RepositoryInterface
 
             return $this->populateEntityWithData($entityData);
         } catch (\Exception $exception) {
-            var_dump($exception->getMessage());
-            die('não funcionou a conexão com o banco');
+            // TODO: Implementar Log
         }
 
         return null;
@@ -48,7 +47,7 @@ class Repository extends AbstractDatabase implements RepositoryInterface
         try {
             $entityData = $this->selectById($id);
 
-            if (!isset($entityData['id']) && is_null($entityData['id'])) {
+            if (is_bool($entityData) || !isset($entityData['id']) && is_null($entityData['id'])) {
                 throw new \Exception(
                     "Não foi possível encontrar um objeto com o ID {$id} para a tabela {$this->table}."
                 );
@@ -56,8 +55,7 @@ class Repository extends AbstractDatabase implements RepositoryInterface
 
             return $this->populateEntityWithData($entityData);
         } catch (\Exception $exception) {
-            var_dump($exception->getMessage());
-            die('não funcionou a conexão com o banco');
+            // TODO: Implementar Log
         }
 
         return null;
@@ -73,7 +71,7 @@ class Repository extends AbstractDatabase implements RepositoryInterface
         try {
             $collectionData = $this->select();
 
-            if (count($collectionData)) {
+            if (!count($collectionData)) {
                 return [];
             }
 
@@ -83,8 +81,7 @@ class Repository extends AbstractDatabase implements RepositoryInterface
 
             return $collection;
         } catch (\Exception $exception) {
-            var_dump($exception->getMessage());
-            die('não funcionou a conexão com o banco');
+            // TODO: Implementar Log
         }
 
         return null;
@@ -93,10 +90,10 @@ class Repository extends AbstractDatabase implements RepositoryInterface
     protected function populateEntityWithData(array $entityData): Entity
     {
         return new Entity(
-            $entityData[Entity::ID],
             $entityData[Entity::NAME],
-            $entityData[Entity::ROLES],
-            $entityData[Entity::IS_ENABLED]
+            $entityData[Entity::PERMISSIONS],
+            $entityData[Entity::IS_ENABLED],
+            $entityData[Entity::ID]
         );
     }
 }

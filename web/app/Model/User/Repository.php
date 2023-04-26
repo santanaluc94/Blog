@@ -1,15 +1,15 @@
 <?php
 
-namespace App\Model\Post;
+namespace App\Model\User;
 
 use App\Model\RepositoryInterface;
 use App\Model\EntityInterface;
 use App\Model\AbstractDatabase;
-use App\Model\Post\Entity;
+use App\Model\User\Entity;
 
 class Repository extends AbstractDatabase implements RepositoryInterface
 {
-    public const TABLE_NAME = 'post';
+    public const TABLE_NAME = 'user';
 
     protected function setTableName(): void
     {
@@ -36,8 +36,7 @@ class Repository extends AbstractDatabase implements RepositoryInterface
 
             return $this->populateEntityWithData($entityData);
         } catch (\Exception $exception) {
-            var_dump($exception->getMessage());
-            die('não funcionou a conexão com o banco');
+            // TODO: Implementar Log
         }
 
         return null;
@@ -56,8 +55,7 @@ class Repository extends AbstractDatabase implements RepositoryInterface
 
             return $this->populateEntityWithData($entityData);
         } catch (\Exception $exception) {
-            var_dump($exception->getMessage());
-            die('não funcionou a conexão com o banco');
+            // TODO: Implementar Log
         }
 
         return null;
@@ -83,8 +81,7 @@ class Repository extends AbstractDatabase implements RepositoryInterface
 
             return $collection;
         } catch (\Exception $exception) {
-            var_dump($exception->getMessage());
-            die('não funcionou a conexão com o banco');
+            // TODO: Implementar Log
         }
 
         return null;
@@ -92,15 +89,14 @@ class Repository extends AbstractDatabase implements RepositoryInterface
 
     protected function populateEntityWithData(array $entityData): Entity
     {
-        return new Entity(
-            $entityData[Entity::ID],
-            $entityData[Entity::TITLE],
-            $entityData[Entity::CATEGORY_ID],
-            $entityData[Entity::CONTENT],
-            $entityData[Entity::STATUS],
-            $entityData[Entity::USER_ID],
-            $entityData[Entity::CREATED_AT],
-            $entityData[Entity::UPDATED_AT]
+        $entity = new Entity(
+            $entityData[Entity::FIRSTNAME],
+            $entityData[Entity::LASTNAME],
+            $entityData[Entity::EMAIL],
+            $entityData[Entity::ROLE_ID],
+            $entityData[Entity::ID]
         );
+        return $entity->setCreatedAt($entityData[Entity::CREATED_AT])
+            ->setUpdatedAt($entityData[Entity::UPDATED_AT]);
     }
 }

@@ -8,16 +8,17 @@ class Entity implements EntityInterface
 {
     public const ID = 'id';
     public const NAME = 'name';
-    public const ROLES = 'roles';
+    public const PERMISSIONS = 'permissions';
     public const IS_ENABLED = 'is_enabled';
+    protected const HAS_PERMISSION = 'on';
 
     public function __construct(
         protected string $name,
-        protected string $roles,
-        protected bool $isEnabled,
+        protected string $permissions,
+        protected int $isEnabled,
         protected ?int $id = null
     ) {
-        $this->roles = $this->setMinifyJson($roles);
+        $this->permissions = $this->setMinifyJson($permissions);
     }
 
     public function getId(): ?int
@@ -30,26 +31,31 @@ class Entity implements EntityInterface
         return $this->name;
     }
 
-    public function getRoles(): string
+    public function getPermissions(): string
     {
-        return $this->roles;
+        return $this->permissions;
     }
 
-    public function isEnabled(): bool
+    public function isEnabled(): int
     {
         return $this->isEnabled;
     }
 
-    protected function setMinifyJson(string $roles): string
+    public function getStatus(): string
     {
-        return str_replace(["\r", "\n", ' '], '', $roles);
+        return $this->isEnabled() ? 'Ativo' : 'Inativo';
+    }
+
+    protected function setMinifyJson(string $permissions): string
+    {
+        return str_replace(["\r", "\n", ' '], '', $permissions);
     }
 
     public function getData(): array
     {
         $data = [
             self::NAME => $this->getName(),
-            self::ROLES => $this->getRoles(),
+            self::PERMISSIONS => $this->getPermissions(),
             self::IS_ENABLED => $this->isEnabled()
         ];
 
