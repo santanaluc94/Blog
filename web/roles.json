@@ -1,0 +1,22 @@
+{
+    "site": true,
+    "admin": {
+        "category": {
+            "read": {
+                "save": true,
+                "delete": true
+            }
+        },
+        "page": {
+            "read": {
+                "save": true,
+                "delete": false
+            }
+        },
+        "post": {
+            "read": true
+        },
+        "user": false,
+        "admin": false
+    }
+}
