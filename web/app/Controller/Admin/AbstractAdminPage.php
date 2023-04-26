@@ -8,7 +8,6 @@ use App\Http\Request;
 abstract class AbstractAdminPage
 {
     public const AREA_ADMIN_HOMEPAGE = 'admin';
-    protected const DEFAULT_LISTING_SIZE = 2;
 
     public static function getAdminPage(
         string $title,

@@ -53,7 +53,8 @@ abstract class AbstractDatabase
         string $fields = '*',
         ?string $where = null,
         ?string $order = null,
-        ?string $limit = null
+        ?string $limit = null,
+        ?string $offset = null
     ): array {
         $query = "SELECT {$fields} FROM {$this->db}.{$this->table}";
 
@@ -67,6 +68,10 @@ abstract class AbstractDatabase
 
         if ($limit) {
             $query .= " LIMIT {$limit}";
+        }
+
+        if ($offset) {
+            $query .= " OFFSET {$offset}";
         }
 
         $query .= ';';

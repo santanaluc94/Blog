@@ -4,6 +4,7 @@ namespace App\Controller\Admin\Roles;
 
 use App\View\View;
 use App\Http\Request;
+use App\Model\Pagination;
 use App\Model\Role\Repository;
 use App\Model\Role\Entity;
 
@@ -16,16 +17,18 @@ class Listing extends \App\Controller\Admin\AbstractAdminPage
 
     public static function execute(Request $request): string
     {
-        $currentPage = $request->getQueryParam('p') ?? 1;
+        $currentPage = (int) $request->getQueryParam('p') ?? 1;
 
         $roleRepository = new Repository();
         $tableSize = $roleRepository->getSize();
+
+        $pagination = new Pagination('roles/listing', $tableSize, $currentPage);
 
         $roleCollection = $roleRepository->getCollection(
             '*',
             null,
             null,
-            $currentPage . "," . self::DEFAULT_LISTING_SIZE
+            $pagination->getLimit(),
         );
 
         $roleCollection ?
@@ -38,8 +41,7 @@ class Listing extends \App\Controller\Admin\AbstractAdminPage
             'roleSavePath' => 'roles/save',
             'items' => self::$items,
             'emptyList' => self::$emptyList,
-            'paginationPreviousDisabled' => (!!$currentPage || $currentPage <= 1)? 'disabled' : '',
-            'paginationNextDisabled' => $currentPage >= $tableSize ? --$currentPage : 'disabled',
+            'pagination' => $pagination->getPaginationHtml()
         ];
 
         $content = View::render(
@@ -81,25 +83,5 @@ class Listing extends \App\Controller\Admin\AbstractAdminPage
             self::AREA_ADMIN_HOMEPAGE,
             ['qtyColumns' => self::QTY_COLUMNS]
         );
-    }
-
-    protected static function renderPagination(array $roleCollection): string
-    {
-        /** @var Entity $role */
-        foreach ($roleCollection as $role) {
-            self::$items .= View::render(
-                'contents/roles/item',
-                self::AREA_ADMIN_HOMEPAGE,
-                [
-                    'roleSavePath' => 'roles/save',
-                    'roleDeletePath' => 'roles/deletePost',
-                    'id' => $role->getId(),
-                    'name' => $role->getName(),
-                    'isEnabled' => $role->getStatus()
-                ]
-            );
-        }
-
-        return self::$items;
     }
 }

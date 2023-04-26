@@ -70,14 +70,16 @@ class Repository extends AbstractDatabase implements RepositoryInterface
         string $fields = '*',
         ?string $where = null,
         ?string $order = null,
-        ?string $limit = null
+        ?string $limit = null,
+        ?string $offset = null
     ): ?array {
         try {
             $collectionData = $this->select(
                 $fields,
                 $where,
                 $order,
-                $limit
+                $limit,
+                $offset
             );
 
             if (!count($collectionData)) {

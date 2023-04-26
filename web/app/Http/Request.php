@@ -36,9 +36,9 @@ class Request
         return $this;
     }
 
-    public function getQueryParam(string $key): string|int|array|bool
+    public function getQueryParam(string $key): string|int|array|bool|null
     {
-        return $this->queryParams[$key];
+        return $this->queryParams[$key] ?? null;
     }
 
     public function getQueryParams(): array
