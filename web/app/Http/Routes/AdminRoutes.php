@@ -72,18 +72,6 @@ $router->get('/admin/users/save/{id}', [
     }
 ]);
 
-$router->get('/admin/pages/listing', [
-    'controller' => function ($request) {
-        return new Response(200, Admin\Pages\Listing::execute($request));
-    }
-]);
-
-$router->get('/admin/pages/save/{id}', [
-    'controller' => function ($request) {
-        return new Response(200, Admin\Pages\Save::execute($request));
-    }
-]);
-
 $router->get('/admin/roles/listing', [
     'controller' => function ($request) {
         return new Response(200, Admin\Roles\Listing::execute($request));

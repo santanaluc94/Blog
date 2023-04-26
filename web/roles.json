@@ -7,16 +7,17 @@
                 "delete": true
             }
         },
-        "page": {
+        "post": {
             "read": {
                 "save": true,
-                "delete": false
+                "delete": true
             }
         },
-        "post": {
-            "read": true
-        },
-        "user": false,
-        "admin": false
+        "user": {
+            "read": {
+                "save": true,
+                "delete": true
+            }
+        }
     }
 }

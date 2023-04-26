@@ -36,9 +36,6 @@ class Save extends \App\Controller\Admin\AbstractAdminPage
             $arguments['role_permissions_admin_category'] = '';
             $arguments['role_permissions_admin_category_save'] = '';
             $arguments['role_permissions_admin_category_delete'] = '';
-            $arguments['role_permissions_admin_page'] = '';
-            $arguments['role_permissions_admin_page_save'] = '';
-            $arguments['role_permissions_admin_page_delete'] = '';
             $arguments['role_permissions_admin_post'] = '';
             $arguments['role_permissions_admin_post_save'] = '';
             $arguments['role_permissions_admin_post_delete'] = '';
@@ -82,19 +79,6 @@ class Save extends \App\Controller\Admin\AbstractAdminPage
 
                 if (isset($permissions['admin']['category']['delete']) && $permissions['admin']['category']['delete']) {
                     $arguments['role_permissions_admin_category_delete'] = 'checked';
-                }
-            }
-
-            // Permission Page
-            if (isset($permissions['admin']['page']) && $permissions['admin']['page']) {
-                $arguments['role_permissions_admin_page'] = 'checked';
-
-                if (isset($permissions['admin']['page']['save']) && $permissions['admin']['page']['save']) {
-                    $arguments['role_permissions_admin_page_save'] = 'checked';
-                }
-
-                if (isset($permissions['admin']['page']['delete']) && $permissions['admin']['page']['delete']) {
-                    $arguments['role_permissions_admin_page_delete'] = 'checked';
                 }
             }
 

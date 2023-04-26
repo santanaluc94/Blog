@@ -83,7 +83,6 @@ Para acessar o projeto, basta acessar a URL `http::localhost/`.
 
 ## Tabelas
 
-
 ### Postagens
 
 | Columns     | Type     |
@@ -119,31 +118,11 @@ Para acessar o projeto, basta acessar a URL `http::localhost/`.
 | created_at   | datetime |
 | updated_at   | datetime |
 
-### Páginas
-
-| Columns     | Type     |
-|-------------|----------|
-| id          | int      |
-| title       | string   |
-| content     | blob     |
-| status      | int      |
-| user_id     | int      |
-| created_at  | datetime |
-| updated_at  | datetime |
-
-### Papéis de Usuários
-
-| Columns     | Type     |
-|-------------|----------|
-| id          | int      |
-| user_id     | int      |
-| role_id     | int      |
-
 ### Papéis
 
 | Columns     | Type     |
 |-------------|----------|
 | id          | int      |
 | name        | string   |
-| roles       | json     |
+| permissions | json     |
 | is_enabled  | bool     |
