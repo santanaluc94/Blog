@@ -55,7 +55,6 @@ bin/kill
 ```
 
 > Este comando inclui as seguintes funções:
-> - deletar o banco de dados
 > - deletar os contêiners
 > - deletar o volume do container
 > - deletar a rede dos contêiners
@@ -78,6 +77,20 @@ Senha: admin123
 ### Site
 
 Para acessar o projeto, basta acessar a URL `http::localhost/`.
+
+Usuário administrador:
+
+```txt
+E-mail: admin@mail.com
+Senha: admin123
+```
+
+Demais usuários:
+
+```txt
+E-mail: {email}
+Senha: admin123
+```
 
 ---
 

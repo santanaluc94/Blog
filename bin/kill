@@ -1,5 +1,5 @@
 #!/bin/bash
-sudo rm ./web/.env
 docker compose down
+sudo rm ./web/.env
 sudo rm -Rf ./web/vendor/
 sudo rm ./web/composer.lock
