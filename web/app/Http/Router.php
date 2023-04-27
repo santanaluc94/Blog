@@ -27,6 +27,11 @@ class Router
         $this->addRoute(self::GET_METHOD, $route, $params);
     }
 
+    public function delete(string $route, array $params): void
+    {
+        $this->addRoute(self::GET_METHOD, $route, $params);
+    }
+
     public function post(string $route, array $params): void
     {
         $this->addRoute(self::POST_METHOD, $route, $params);

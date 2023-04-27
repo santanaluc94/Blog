@@ -9,7 +9,9 @@ $router = new Router(URL);
 
 $request = new Request($router);
 
+include __DIR__ . '/app/Http/Routes/AdminPostRoutes.php';
+include __DIR__ . '/app/Http/Routes/AdminPageRoutes.php';
+include __DIR__ . '/app/Http/Routes/AdminDeleteRoutes.php';
 include __DIR__ . '/app/Http/Routes/Routes.php';
-include __DIR__ . '/app/Http/Routes/AdminRoutes.php';
 
 $router->run()->sendResponse();

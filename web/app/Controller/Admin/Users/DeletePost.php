@@ -1,9 +1,9 @@
 <?php
 
-namespace App\Controller\Admin\Roles;
+namespace App\Controller\Admin\Users;
 
 use App\Http\Request;
-use App\Model\Role\Repository;
+use App\Model\User\Repository;
 use Exception;
 
 class DeletePost extends \App\Controller\Admin\AbstractAdminPost
@@ -15,7 +15,7 @@ class DeletePost extends \App\Controller\Admin\AbstractAdminPost
 
             if (!$entityId) {
                 throw new Exception(
-                    'Não é possível deletar um papel de usuário sem passar o ID.',
+                    'Não é possível deletar um usuário sem passar o ID.',
                     400
                 );
             }
@@ -28,7 +28,7 @@ class DeletePost extends \App\Controller\Admin\AbstractAdminPost
 
             if (!$repository->removeById($entityId)) {
                 throw new Exception(
-                    "Não foi possível deletar o papel de usuário com o ID {$entityId}.",
+                    "Não foi possível deletar o usuário com o ID {$entityId}.",
                     400
                 );
             }
@@ -40,6 +40,6 @@ class DeletePost extends \App\Controller\Admin\AbstractAdminPost
             // TODO: Implementar flash messages
         }
 
-        return URL . '/admin/roles/listing';
+        return URL . '/admin/users/listing';
     }
 }
