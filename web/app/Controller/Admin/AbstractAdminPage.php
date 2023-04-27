@@ -8,9 +8,12 @@ use App\Http\Request;
 abstract class AbstractAdminPage
 {
     public const AREA_ADMIN_HOMEPAGE = 'admin';
+    protected const QTY_COLUMNS = 0;
 
     protected static string $items = '';
     protected static string $emptyList = '';
+
+    abstract public static function execute(Request $request): string;
 
     public static function getAdminPage(
         string $title,
@@ -53,5 +56,12 @@ abstract class AbstractAdminPage
         return View::render('footer', self::AREA_ADMIN_HOMEPAGE);
     }
 
-    abstract public static function execute(Request $request): string;
+    protected static function getEmptyItems(): string
+    {
+        return View::render(
+            'emptyList',
+            self::AREA_ADMIN_HOMEPAGE,
+            ['qtyColumns' => self::QTY_COLUMNS]
+        );
+    }
 }

@@ -5,42 +5,41 @@
                 <h2>{{title}}</h2>
             </div>
             <div class="col-auto">
+                <a href="{{baseAdminUrl}}/{{postListingPath}}" role="button" class="btn btn-outline-primary">Voltar</a>
+            </div>
+            <div class="col-auto">
                 <button type="submit" class="btn btn-primary">Salvar</button>
             </div>
         </div>
     </section>
 
     <section class="mt-5">
+        <input type="text" name="id" value="{{id}}" readonly hidden>
+
         <div class="mb-3">
-            <label for="post_title" class="form-label">Título</label>
-            <input type="text" class="form-control" id="post_title">
+            <label class="form-label">Título</label>
+            <input type="text" class="form-control" name="post_title" value="{{postTitle}}">
         </div>
 
         <div class="mb-3">
-            <label for="post_category" class="form-label">Categoria</label>
-            <input class="form-control" list="categories_list" id="post_category">
-            <datalist id="categories_list">
-                <option value="San Francisco">
-                <option value="New York">
-                <option value="Seattle">
-                <option value="Los Angeles">
-                <option value="Chicago">
-            </datalist>
+            <label class="form-label">Categoria</label>
+            <select class="form-select" name="post_category_id">
+                {{categoryOptions}}
+                <option disabled readonly {{optionsSelected}}></option>
+            </select>
         </div>
 
         <div class="mb-3">
-            <label for="post_status" class="form-label">Status</label>
-            <input class="form-control" list="status_list" id="post_status">
-            <datalist id="status_list">
-                <option value="Em Revisão">
-                <option value="Para Aprovar">
-                <option value="Publicar">
-            </datalist>
+            <label class="form-label">Status</label>
+            <select class="form-select" name="post_status_id">
+                {{statusOptions}}
+                <option disabled readonly {{optionsSelected}}></option>
+            </select>
         </div>
 
         <div class="mb-3">
-            <label for="post_content" class="form-label">Conteúdo</label>
-            <textarea class="form-control" id="post_content" rows="20"></textarea>
+            <label class="form-label">Conteúdo</label>
+            <textarea class="form-control" name="post_content" rows="20">{{content}}</textarea>
         </div>
     </section>
 </form>

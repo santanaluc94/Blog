@@ -25,7 +25,7 @@ class Pagination
     private function calcQtyPages($tableSize): void
     {
         $this->qtyPages = $this->results > 0 ?
-            ceil($tableSize / self::DEFAULT_LISTING_SIZE) :
+            ceil($tableSize / $this->limit) :
             1;
 
         $this->currentPage = ($this->currentPage <= $this->qtyPages) ?
@@ -61,7 +61,7 @@ class Pagination
 
     public function getPaginationHtml(): string
     {
-        $this->pagination = View::render(
+        return View::render(
             'pagination',
             'admin',
             [
@@ -75,8 +75,6 @@ class Pagination
                 'paginationNumber' => $this->renderPagination()
             ]
         );
-
-        return $this->pagination;
     }
 
     protected function renderPagination(): string
@@ -97,5 +95,10 @@ class Pagination
         }
 
         return $this->paginationNumbers;
+    }
+
+    public function isPaginationNeedToBeRendered(): bool
+    {
+        return $this->getQtyPages() > 1 ? true : false;
     }
 }

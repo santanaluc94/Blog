@@ -5,11 +5,18 @@ namespace App\Controller\Admin\Roles;
 use App\Http\Request;
 use App\Model\Role\Repository;
 use App\View\View;
+use Exception;
 
 class Save extends \App\Controller\Admin\AbstractAdminPage
 {
     public static function execute(Request $request): string
     {
+        $id = $request->getQueryParam('id');
+
+        if ($id && !is_numeric($id)) {
+            throw new Exception('O ID informado não é válido.', 400);
+        }
+
         $arguments = [
             'title' => 'Novo Usuário',
             'roleSavePath' => 'roles/save',
@@ -19,14 +26,15 @@ class Save extends \App\Controller\Admin\AbstractAdminPage
             'name' => '',
             'enabled' => '',
             'disabled' => '',
+            'id' => ''
         ];
 
         $roleRepository = new Repository();
-        $entityRole = $roleRepository->load((int) $request->getQueryParam('id'));
+        $entityRole = $roleRepository->load((int) $id);
 
         if ($entityRole && $entityRole->getId()) {
             $arguments['id'] = $entityRole->getId();
-            $arguments['title'] = 'Editar usuário';
+            $arguments['title'] = 'Editar Papel de Usuário';
             $arguments['roleSavePost'] = 'roles/savePost/' . $entityRole->getId();
             $arguments['name'] = $entityRole->getName();
             $arguments['enabled'] = $entityRole->isEnabled() ? 'checked' : '';

@@ -107,6 +107,7 @@ class Repository extends AbstractDatabase implements RepositoryInterface
             $entityData[Entity::LASTNAME],
             $entityData[Entity::EMAIL],
             $entityData[Entity::ROLE_ID],
+            '',
             $entityData[Entity::ID]
         );
         return $entity->setCreatedAt($entityData[Entity::CREATED_AT])

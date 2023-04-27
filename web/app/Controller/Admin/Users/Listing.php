@@ -39,7 +39,7 @@ class Listing extends \App\Controller\Admin\AbstractAdminPage
             'userListingPath' => 'users/listing',
             'items' => self::$items,
             'emptyList' => self::$emptyList,
-            'pagination' => $pagination->getPaginationHtml()
+            'pagination' => $pagination->isPaginationNeedToBeRendered() ? $pagination->getPaginationHtml() : ''
         ];
 
         $content = View::render(
@@ -75,14 +75,5 @@ class Listing extends \App\Controller\Admin\AbstractAdminPage
         }
 
         return self::$items;
-    }
-
-    protected static function getEmptyItems(): string
-    {
-        return View::render(
-            'emptyList',
-            self::AREA_ADMIN_HOMEPAGE,
-            ['qtyColumns' => self::QTY_COLUMNS]
-        );
     }
 }

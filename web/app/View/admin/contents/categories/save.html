@@ -5,20 +5,26 @@
                 <h2>{{title}}</h2>
             </div>
             <div class="col-auto">
+                <a href="{{baseAdminUrl}}/{{categoryListingPath}}" role="button"
+                    class="btn btn-outline-primary">Voltar</a>
+            </div>
+            <div class="col-auto">
                 <button type="submit" class="btn btn-primary">Salvar</button>
             </div>
         </div>
     </section>
 
     <section class="mt-5">
+        <input type="text" name="id" value="{{id}}" readonly hidden>
+
         <div class="mb-3">
             <label for="category_name" class="form-label">Nome</label>
-            <input type="text" class="form-control" id="category_name">
+            <input type="text" class="form-control" name="category_name" value="{{name}}">
         </div>
 
         <div class="mb-3">
             <label for="category_slug" class="form-label">Slug</label>
-            <input type="text" class="form-control-plaintext" id="category_slug" placeholder="O Slug será gerado automaticamente.">
+            <input type="text" class="form-control" name="category_slug" value="{{slug}}">
         </div>
     </section>
 </form>

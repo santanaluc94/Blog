@@ -17,7 +17,7 @@ class Entity implements EntityInterface
 
     public function __construct(
         protected string $name,
-        protected string $slug = '',
+        protected string $slug,
         protected ?int $id = null
     ) {
         $this->slug = $this->slugify($slug);
@@ -28,9 +28,21 @@ class Entity implements EntityInterface
         return $this->id;
     }
 
+    public function setId(int $id): self
+    {
+        $this->id = $id;
+        return $this;
+    }
+
     public function getName(): string
     {
         return $this->name;
+    }
+
+    public function setName(string $name): self
+    {
+        $this->name = $name;
+        return $this;
     }
 
     public function getSlug(): string
@@ -38,9 +50,15 @@ class Entity implements EntityInterface
         return $this->slug;
     }
 
+    public function setSlug(string $slug): self
+    {
+        $this->slug = $this->slugify($slug);
+        return $this;
+    }
+
     public function getCreatedAt(): ?string
     {
-        return $this->createdAt;
+        return $this->createdAt ?? null;
     }
 
     public function setCreatedAt(string $createdAt): self
@@ -51,7 +69,7 @@ class Entity implements EntityInterface
 
     public function getUpdatedAt(): ?string
     {
-        return $this->updatedAt;
+        return $this->updatedAt ?? null;
     }
 
     public function setUpdatedAt(string $updatedAt): self

@@ -13,39 +13,32 @@ class SavePost extends \App\Controller\Admin\AbstractAdminPost
     {
         try {
             $roleData = $request->getPostVars();
-
-            if (
-                !isset($roleData['role_name']) ||
-                !isset($roleData['role_permissions']) ||
-                !isset($roleData['role_is_enabled'])
-            ) {
-                throw new Exception('Você precisa preencher todos os campos.', 400);
-            }
-
-            $name = htmlspecialchars($roleData['role_name']);
-            $permissions = str_replace('"on"', 'true', json_encode(filter_var_array($roleData['role_permissions'])));
-            $isEnabled = (filter_var($roleData['role_is_enabled'], FILTER_VALIDATE_BOOL)) ? 1 : 0;
+            self::sanitizeFields($roleData);
             $roleRepository = new Repository();
 
-            if (isset($roleData['id']) && is_numeric($roleData['id'])) {
-                $id = filter_var($roleData['id'], FILTER_VALIDATE_INT);
+            if (isset($roleData['id']) && $roleData['id']) {
+                if (!filter_var($roleData['id'], FILTER_VALIDATE_INT)) {
+                    throw new Exception('O campo id não foi preenchido corretamente.', 400);
+                }
 
-                $entity = $roleRepository->load((int) $roleData['id']);
+                $id = (int) $roleData['id'];
+
+                $entity = $roleRepository->load($id);
                 $entity->setId($id)
-                    ->setName($name)
-                    ->setPermissions($permissions)
-                    ->setEnabled($isEnabled);
+                    ->setName($roleData['role_name'])
+                    ->setPermissions($roleData['role_permissions'])
+                    ->setEnabled($roleData['role_is_enabled']);
             } else {
                 $entity = new Entity(
-                    $name,
-                    $permissions,
-                    $isEnabled
+                    $roleData['role_name'],
+                    $roleData['role_permissions'],
+                    $roleData['role_is_enabled']
                 );
             }
 
             if (!$roleRepository->save($entity)) {
                 throw new Exception(
-                    "Não foi possível salvar o usuário.",
+                    "Não foi possível salvar o papel de usuário com os dados passados.",
                     400
                 );
             }
@@ -55,5 +48,33 @@ class SavePost extends \App\Controller\Admin\AbstractAdminPost
         }
 
         return URL . '/admin/roles/listing';
+    }
+
+    protected static function sanitizeFields(array &$data): void
+    {
+        if (
+            !isset($data['role_name']) ||
+            !is_string($data['role_name'])
+        ) {
+            throw new Exception('O campo nome não foi preenchido corretamente.', 400);
+        }
+
+        if (
+            !isset($data['role_permissions']) ||
+            !filter_var_array($data['role_permissions'])
+        ) {
+            throw new Exception('O campo de permissões não foi preenchido corretamente.', 400);
+        }
+
+        if (
+            !isset($data['role_is_enabled']) ||
+            !is_string($data['role_is_enabled'])
+        ) {
+            throw new Exception('O campo status não foi preenchido corretamente.', 400);
+        }
+
+        $data['role_name'] = htmlspecialchars($data['role_name']);
+        $data['role_permissions'] = str_replace('"on"', 'true', json_encode($data['role_permissions']));
+        $data['role_is_enabled'] = (json_decode($data['role_is_enabled'])) ? 1 : 0;
     }
 }

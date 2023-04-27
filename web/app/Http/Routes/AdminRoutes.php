@@ -24,6 +24,26 @@ $router->post('/admin/users/savePost/{id}', [
     }
 ]);
 
+$router->post('/admin/posts/savePost/{id}', [
+    'controller' => function ($request) {
+        return new Response(
+            200,
+            Admin\Posts\SavePost::execute($request),
+            'application/x-httpd-php'
+        );
+    }
+]);
+
+$router->post('/admin/categories/savePost/{id}', [
+    'controller' => function ($request) {
+        return new Response(
+            200,
+            Admin\Categories\SavePost::execute($request),
+            'application/x-httpd-php'
+        );
+    }
+]);
+
 $router->get('/admin/login', [
     'controller' => function ($request) {
         return new Response(200, Admin\Login::execute($request));

@@ -43,9 +43,21 @@ class Entity implements EntityInterface
         return $this->id;
     }
 
+    public function setId(int $id): self
+    {
+        $this->id = $id;
+        return $this;
+    }
+
     public function getTitle(): string
     {
         return $this->title;
+    }
+
+    public function setTitle(string $title): self
+    {
+        $this->title = $title;
+        return $this;
     }
 
     public function getCategoryId(): int
@@ -53,9 +65,21 @@ class Entity implements EntityInterface
         return $this->categoryId;
     }
 
+    public function setCategoryId(int $categoryId): self
+    {
+        $this->categoryId = $categoryId;
+        return $this;
+    }
+
     public function getContent(): string
     {
         return $this->content;
+    }
+
+    public function setContent(string $content): self
+    {
+        $this->content = $content;
+        return $this;
     }
 
     public function getStatus(): int
@@ -63,14 +87,26 @@ class Entity implements EntityInterface
         return $this->status;
     }
 
+    public function setStatus(int $status): self
+    {
+        $this->status = $status;
+        return $this;
+    }
+
     public function getUserId(): int
     {
         return $this->userId;
     }
 
+    public function setUserId(int $userId): self
+    {
+        $this->userId = $userId;
+        return $this;
+    }
+
     public function getCreatedAt(): ?string
     {
-        return $this->createdAt;
+        return $this->createdAt ?? null;
     }
 
     public function setCreatedAt(string $createdAt): self
@@ -81,7 +117,7 @@ class Entity implements EntityInterface
 
     public function getUpdatedAt(): ?string
     {
-        return $this->updatedAt;
+        return $this->updatedAt ?? null;
     }
 
     public function setUpdatedAt(string $updatedAt): self
@@ -112,7 +148,7 @@ class Entity implements EntityInterface
     {
         $status = $this->getStatus();
 
-        if (in_array($status, self::VALID_STATUS)) {
+        if (array_key_exists($status, self::VALID_STATUS)) {
             return self::VALID_STATUS[$status];
         }
 

@@ -5,12 +5,17 @@
                 <h2>{{title}}</h2>
             </div>
             <div class="col-auto">
+                <a href="{{baseAdminUrl}}/{{userListingPath}}" role="button" class="btn btn-outline-primary">Voltar</a>
+            </div>
+            <div class="col-auto">
                 <button type="submit" class="btn btn-primary">Salvar</button>
             </div>
         </div>
     </section>
 
     <section class="mt-5">
+        <input type="text" name="id" value="{{id}}" readonly hidden>
+
         <div class="mb-3">
             <label class="form-label">Nome</label>
             <input type="text" class="form-control" name="user_firstname" value="{{firstname}}">
@@ -28,9 +33,9 @@
 
         <div class="mb-3">
             <label class="form-label">Cargo</label>
-            <select class="form-select" name="user_role_id" name="{{role_id}}">
-                <option disabled selected readonly></option>
+            <select class="form-select" name="user_role_id">
                 {{options}}
+                <option disabled readonly {{optionsSelected}}></option>
             </select>
         </div>
 

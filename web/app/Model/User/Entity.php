@@ -12,6 +12,7 @@ class Entity implements EntityInterface
     public const LASTNAME = 'lastname';
     public const EMAIL = 'email';
     public const ROLE_ID = 'role_id';
+    public const PASSWORD = 'password';
     public const CREATED_AT = 'created_at';
     public const UPDATED_AT = 'updated_at';
 
@@ -23,6 +24,7 @@ class Entity implements EntityInterface
         protected string $lastname,
         protected string $email,
         protected int $roleId,
+        protected string $password,
         protected ?int $id = null
     ) {
     }
@@ -32,9 +34,21 @@ class Entity implements EntityInterface
         return $this->id;
     }
 
+    public function setId(int $id): self
+    {
+        $this->id = $id;
+        return $this;
+    }
+
     public function getFirstname(): string
     {
         return $this->firstname;
+    }
+
+    public function setFirstname(string $firstname): self
+    {
+        $this->firstname = $firstname;
+        return $this;
     }
 
     public function getLastname(): string
@@ -42,14 +56,43 @@ class Entity implements EntityInterface
         return $this->lastname;
     }
 
+    public function setLastname(string $lastname): self
+    {
+        $this->lastname = $lastname;
+        return $this;
+    }
+
     public function getEmail(): string
     {
         return $this->email;
     }
 
+    public function setEmail(string $email): self
+    {
+        $this->email = $email;
+        return $this;
+    }
+
     public function getRoleId(): int
     {
         return $this->roleId;
+    }
+
+    public function setRoleId(int $roleId): self
+    {
+        $this->roleId = $roleId;
+        return $this;
+    }
+
+    public function getPassword(): string
+    {
+        return $this->password;
+    }
+
+    public function setPassword(string $password): self
+    {
+        $this->password = $password;
+        return $this;
     }
 
     public function getCreatedAt(): ?string
@@ -107,6 +150,10 @@ class Entity implements EntityInterface
 
         if ($this->getUpdatedAt()) {
             $data[self::UPDATED_AT] = $this->getUpdatedAt();
+        }
+
+        if ($this->getPassword()) {
+            $data[self::PASSWORD] = $this->getPassword();
         }
 
         return $data;
