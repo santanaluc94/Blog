@@ -16,7 +16,7 @@ Para **instalar** todo o ambiente é necessário somente um passo:
 bin/install
 ```
 
-> Assim que a instalação é concluída o projeto já inicia automaticamente.
+> Assim que a instalação é concluída basta importar o banco de dados, que está no seguinte caminho: `web/public/db_dump.sql`.
 
 Para **parar** os contêiners do projeto:
 
