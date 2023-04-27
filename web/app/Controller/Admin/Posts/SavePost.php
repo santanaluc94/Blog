@@ -7,6 +7,8 @@ use App\Controller\Admin\{
     PostInterface
 };
 use App\Http\Request;
+use App\Model\AdminSession;
+use App\Model\User\Entity as UserEntity;
 use App\Model\Post\{
     Entity,
     Repository
@@ -16,12 +18,18 @@ use Exception;
 
 class SavePost extends AbstractAdminPost implements PostInterface
 {
+    protected static array $aclAreaMandatory = [
+        'area' => 'post',
+        'permission' => 'save'
+    ];
+
     public static function execute(Request $request): string
     {
         try {
-            // TODO: Acessar o ID do usuário logado através da session
-            $userId = 1;
+            self::init(self::$aclAreaMandatory);
 
+            /** @var UserEntity $userSession */
+            $userSession = AdminSession::getSession()['user'];
             $postData = $request->getPostVars();
             self::sanitizeFields($postData);
             $postRepository = new Repository();
@@ -37,14 +45,14 @@ class SavePost extends AbstractAdminPost implements PostInterface
                 $entity->setId($id)
                     ->setTitle($postData['post_title'])
                     ->setCategoryId($postData['post_category_id'])
-                    ->setUserId($userId)
+                    ->setUserId($userSession->getId())
                     ->setStatus($postData['post_status_id'])
                     ->setContent($postData['post_content']);
             } else {
                 $entity = new Entity(
                     $postData['post_title'],
                     $postData['post_category_id'],
-                    $userId,
+                    $userSession->getId(),
                     $postData['post_status_id'],
                     $postData['post_content']
                 );
@@ -59,6 +67,9 @@ class SavePost extends AbstractAdminPost implements PostInterface
         } catch (Exception $exception) {
             // TODO: Implementar Log
             // TODO: Implementar flash messages
+
+            $request->getRouter()->redirect('/admin/posts/save');
+            exit();
         }
 
         return URL . '/admin/posts/listing';

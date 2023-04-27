@@ -15,9 +15,15 @@ use Exception;
 
 class SavePost extends AbstractAdminPost implements PostInterface
 {
+    protected static array $aclAreaMandatory = [
+        'area' => 'category',
+        'permission' => 'save'
+    ];
+
     public static function execute(Request $request): string
     {
         try {
+            self::init(self::$aclAreaMandatory);
             $categoryData = $request->getPostVars();
             self::sanitizeFields($categoryData);
             $categoryRepository = new Repository();
@@ -49,6 +55,9 @@ class SavePost extends AbstractAdminPost implements PostInterface
         } catch (Exception $exception) {
             // TODO: Implementar Log
             // TODO: Implementar flash messages
+
+            $request->getRouter()->redirect('/admin/categories/save');
+            exit();
         }
 
         return URL . '/admin/categories/listing';

@@ -2,12 +2,11 @@
 
 namespace App\Controller\Admin;
 
-use App\View\View;
 use App\Http\Request;
+use App\View\View;
 
-abstract class AbstractAdminPage
+abstract class AbstractAdminPage extends AbstractAdmin
 {
-    public const AREA_ADMIN_HOMEPAGE = 'admin';
     protected const QTY_COLUMNS = 0;
 
     protected static string $items = '';

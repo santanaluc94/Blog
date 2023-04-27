@@ -7,45 +7,61 @@ use App\Model\Role\Repository;
 use App\Model\Pagination;
 use App\View\View;
 use App\Model\Role\Entity;
+use Exception;
 
 class Listing extends \App\Controller\Admin\AbstractAdminPage
 {
     protected const QTY_COLUMNS = 4;
 
+    protected static array $aclAreaMandatory = [
+        'area' => 'role',
+        'permission' => 'read'
+    ];
+
     public static function execute(Request $request): string
     {
-        $currentPage = (int) $request->getQueryParam('p') ?? 1;
+        try {
+            self::init(self::$aclAreaMandatory);
 
-        $roleRepository = new Repository();
-        $tableSize = $roleRepository->count();
+            $currentPage = (int) $request->getQueryParam('p') ?? 1;
 
-        $pagination = new Pagination('roles/listing', $tableSize, $currentPage);
+            $roleRepository = new Repository();
+            $tableSize = $roleRepository->count();
 
-        $roleCollection = $roleRepository->getCollection(
-            '*',
-            null,
-            null,
-            $pagination->getLimit()
-        );
+            $pagination = new Pagination('roles/listing', $tableSize, $currentPage);
 
-        $roleCollection ?
-            self::$items = self::renderItems($roleCollection) :
-            self::$emptyList = self::getEmptyItems();
+            $roleCollection = $roleRepository->getCollection(
+                '*',
+                null,
+                null,
+                $pagination->getLimit()
+            );
 
-        $arguments = [
-            'title' => 'Listagem dos Papéis de Usuário',
-            'roleListingPath' => 'roles/listing',
-            'roleSavePath' => 'roles/save',
-            'items' => self::$items,
-            'emptyList' => self::$emptyList,
-            'pagination' => $pagination->isPaginationNeedToBeRendered() ? $pagination->getPaginationHtml() : ''
-        ];
+            $roleCollection ?
+                self::$items = self::renderItems($roleCollection) :
+                self::$emptyList = self::getEmptyItems();
 
-        $content = View::render(
-            'contents/roles/listing',
-            self::AREA_ADMIN_HOMEPAGE,
-            $arguments
-        );
+            $arguments = [
+                'title' => 'Listagem dos Papéis de Usuário',
+                'roleListingPath' => 'roles/listing',
+                'roleSavePath' => 'roles/save',
+                'items' => self::$items,
+                'emptyList' => self::$emptyList,
+                'pagination' => $pagination->isPaginationNeedToBeRendered() ? $pagination->getPaginationHtml() : ''
+            ];
+
+            $content = View::render(
+                'contents/roles/listing',
+                self::AREA_ADMIN_HOMEPAGE,
+                $arguments
+            );
+        } catch (Exception $exception) {
+            // TODO: Implementar Log
+            // TODO: Implementar flash messages
+
+            $request->getRouter()->redirect('/admin/index');
+            exit();
+        }
 
         return parent::getAdminPage(
             $arguments['title'],

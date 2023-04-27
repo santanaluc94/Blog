@@ -4,6 +4,16 @@ use App\Controller\Admin;
 use App\Http\Response;
 
 /** @var \App\Http\Router $router */
+$router->post('/admin/loginPost', [
+    'controller' => function ($request) {
+        return new Response(
+            200,
+            Admin\LoginPost::execute($request),
+            'application/x-httpd-php'
+        );
+    }
+]);
+
 $router->post('/admin/roles/savePost/{id}', [
     'controller' => function ($request) {
         return new Response(

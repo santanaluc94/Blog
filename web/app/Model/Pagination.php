@@ -6,7 +6,7 @@ use App\View\View;
 
 class Pagination
 {
-    protected const DEFAULT_LISTING_SIZE = 5;
+    protected const DEFAULT_LISTING_SIZE = 3;
 
     protected int $qtyPages;
     protected string $pagination;

@@ -7,46 +7,62 @@ use App\Model\Post\Repository;
 use App\Model\Pagination;
 use App\View\View;
 use App\Model\Post\Entity;
+use Exception;
 
 class Listing extends \App\Controller\Admin\AbstractAdminPage
 {
     protected const QTY_COLUMNS = 7;
 
+    protected static array $aclAreaMandatory = [
+        'area' => 'post',
+        'permission' => 'read'
+    ];
+
     public static function execute(Request $request): string
     {
-        $currentPage = (int) $request->getQueryParam('p') ?? 1;
+        try {
+            self::init(self::$aclAreaMandatory);
 
-        $postRepository = new Repository();
-        $tableSize = $postRepository->count();
+            $currentPage = (int) $request->getQueryParam('p') ?? 1;
 
-        $pagination = new Pagination('posts/listing', $tableSize, $currentPage);
+            $postRepository = new Repository();
+            $tableSize = $postRepository->count();
 
-        $postCollection = $postRepository->getCollection(
-            '*',
-            null,
-            null,
-            $pagination->getLimit()
-        );
+            $pagination = new Pagination('posts/listing', $tableSize, $currentPage);
 
-        $postCollection ?
-            self::$items = self::renderItems($postCollection) :
-            self::$emptyList = self::getEmptyItems();
+            $postCollection = $postRepository->getCollection(
+                '*',
+                null,
+                null,
+                $pagination->getLimit()
+            );
 
-        $arguments = [
-            'title' => 'Listagem das Postasgens',
-            'postSavePath' => 'posts/save',
-            'postDeletePath' => 'posts/delete',
-            'postListingPath' => 'posts/listing',
-            'items' => self::$items,
-            'emptyList' => self::$emptyList,
-            'pagination' => $pagination->isPaginationNeedToBeRendered() ? $pagination->getPaginationHtml() : ''
-        ];
+            $postCollection ?
+                self::$items = self::renderItems($postCollection) :
+                self::$emptyList = self::getEmptyItems();
 
-        $content = View::render(
-            'contents/posts/listing',
-            self::AREA_ADMIN_HOMEPAGE,
-            $arguments
-        );
+            $arguments = [
+                'title' => 'Listagem das Postasgens',
+                'postSavePath' => 'posts/save',
+                'postDeletePath' => 'posts/delete',
+                'postListingPath' => 'posts/listing',
+                'items' => self::$items,
+                'emptyList' => self::$emptyList,
+                'pagination' => $pagination->isPaginationNeedToBeRendered() ? $pagination->getPaginationHtml() : ''
+            ];
+
+            $content = View::render(
+                'contents/posts/listing',
+                self::AREA_ADMIN_HOMEPAGE,
+                $arguments
+            );
+        } catch (Exception $exception) {
+            // TODO: Implementar Log
+            // TODO: Implementar flash messages
+
+            $request->getRouter()->redirect('/admin/index');
+            exit();
+        }
 
         return parent::getAdminPage(
             $arguments['title'],

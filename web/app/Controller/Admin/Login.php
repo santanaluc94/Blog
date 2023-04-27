@@ -7,11 +7,13 @@ use App\Http\Request;
 
 class Login extends AbstractAdminPage
 {
+    protected static array $aclAreaMandatory = [];
+
     public static function execute(Request $request): string
     {
         $arguments = [
-            'title' => 'Blog: Admin Login',
-            'actionFormUrl' => '',
+            'title' => 'Admin Login',
+            'actionFormUrl' => 'loginPost',
             'registerPath' => 'register'
         ];
 

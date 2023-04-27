@@ -8,9 +8,16 @@ use Exception;
 
 class DeletePost extends \App\Controller\Admin\AbstractAdminPost
 {
+    protected static array $aclAreaMandatory = [
+        'area' => 'role',
+        'permission' => 'delete'
+    ];
+
     public static function execute(Request $request): string
     {
         try {
+            self::init(self::$aclAreaMandatory);
+
             $entityId = $request->getQueryParam('id');
 
             if (!$entityId) {
@@ -38,6 +45,9 @@ class DeletePost extends \App\Controller\Admin\AbstractAdminPost
         } catch (Exception $exception) {
             // TODO: Implementar Log
             // TODO: Implementar flash messages
+
+            $request->getRouter()->redirect('/admin/roles/listing');
+            exit();
         }
 
         return URL . '/admin/roles/listing';

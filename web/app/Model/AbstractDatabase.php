@@ -59,7 +59,7 @@ abstract class AbstractDatabase
         $query = "SELECT {$fields} FROM {$this->db}.{$this->table}";
 
         if ($where) {
-            $query .= " {$where}";
+            $query .= " WHERE {$where}";
         }
 
         if ($order) {

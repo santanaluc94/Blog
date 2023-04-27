@@ -7,46 +7,62 @@ use App\Model\User\Repository;
 use App\Model\Pagination;
 use App\Model\User\Entity;
 use App\View\View;
+use Exception;
 
 class Listing extends \App\Controller\Admin\AbstractAdminPage
 {
     protected const QTY_COLUMNS = 6;
 
+    protected static array $aclAreaMandatory = [
+        'area' => 'user',
+        'permission' => 'read'
+    ];
+
     public static function execute(Request $request): string
     {
-        $currentPage = (int) $request->getQueryParam('p') ?? 1;
+        try {
+            self::init(self::$aclAreaMandatory);
 
-        $userRepository = new Repository();
-        $tableSize = $userRepository->count();
+            $currentPage = (int) $request->getQueryParam('p') ?? 1;
 
-        $pagination = new Pagination('users/listing', $tableSize, $currentPage);
+            $userRepository = new Repository();
+            $tableSize = $userRepository->count();
 
-        $userCollection = $userRepository->getCollection(
-            '*',
-            null,
-            null,
-            $pagination->getLimit(),
-        );
+            $pagination = new Pagination('users/listing', $tableSize, $currentPage);
 
-        $userCollection ?
-            self::$items = self::renderItems($userCollection) :
-            self::$emptyList = self::getEmptyItems();
+            $userCollection = $userRepository->getCollection(
+                '*',
+                null,
+                null,
+                $pagination->getLimit(),
+            );
 
-        $arguments = [
-            'title' => 'Listagem dos Usuários',
-            'userSavePath' => 'users/save',
-            'userDeletePath' => 'users/delete',
-            'userListingPath' => 'users/listing',
-            'items' => self::$items,
-            'emptyList' => self::$emptyList,
-            'pagination' => $pagination->isPaginationNeedToBeRendered() ? $pagination->getPaginationHtml() : ''
-        ];
+            $userCollection ?
+                self::$items = self::renderItems($userCollection) :
+                self::$emptyList = self::getEmptyItems();
 
-        $content = View::render(
-            'contents/users/listing',
-            self::AREA_ADMIN_HOMEPAGE,
-            $arguments
-        );
+            $arguments = [
+                'title' => 'Listagem dos Usuários',
+                'userSavePath' => 'users/save',
+                'userDeletePath' => 'users/delete',
+                'userListingPath' => 'users/listing',
+                'items' => self::$items,
+                'emptyList' => self::$emptyList,
+                'pagination' => $pagination->isPaginationNeedToBeRendered() ? $pagination->getPaginationHtml() : ''
+            ];
+
+            $content = View::render(
+                'contents/users/listing',
+                self::AREA_ADMIN_HOMEPAGE,
+                $arguments
+            );
+        } catch (Exception $exception) {
+            // TODO: Implementar Log
+            // TODO: Implementar flash messages
+
+            $request->getRouter()->redirect('/admin/index');
+            exit();
+        }
 
         return parent::getAdminPage(
             $arguments['title'],

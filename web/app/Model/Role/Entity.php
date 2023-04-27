@@ -89,4 +89,9 @@ class Entity implements EntityInterface
 
         return $data;
     }
+
+    public function getPermissionsArray(): array
+    {
+        return json_decode($this->permissions, true);
+    }
 }

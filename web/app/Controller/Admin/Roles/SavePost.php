@@ -15,9 +15,15 @@ use Exception;
 
 class SavePost extends AbstractAdminPost implements PostInterface
 {
+    protected static array $aclAreaMandatory = [
+        'area' => 'role',
+        'permission' => 'save'
+    ];
+
     public static function execute(Request $request): string
     {
         try {
+            self::init(self::$aclAreaMandatory);
             $roleData = $request->getPostVars();
             self::sanitizeFields($roleData);
             $roleRepository = new Repository();
@@ -51,6 +57,9 @@ class SavePost extends AbstractAdminPost implements PostInterface
         } catch (Exception $exception) {
             // TODO: Implementar Log
             // TODO: Implementar flash messages
+
+            $request->getRouter()->redirect('/admin/roles/save');
+            exit();
         }
 
         return URL . '/admin/roles/listing';

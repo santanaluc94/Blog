@@ -12,54 +12,69 @@ class Save extends \App\Controller\Admin\AbstractAdminPage
 {
     protected static string $options = '';
     protected static bool $flag = true;
+    protected static array $aclAreaMandatory = [
+        'area' => 'user',
+        'permission' => 'read'
+    ];
 
     public static function execute(Request $request): string
     {
-        $id = $request->getQueryParam('id');
+        try {
+            self::init(self::$aclAreaMandatory);
 
-        if ($id && !is_numeric($id)) {
-            throw new Exception('O ID informado não é válido.', 400);
+            $id = $request->getQueryParam('id');
+
+            if ($id && !is_numeric($id)) {
+                throw new Exception('O ID informado não é válido.', 400);
+            }
+
+            $roleId = 0;
+            $arguments = [
+                'title' => 'Novo Usuário',
+                'userSavePath' => 'users/save',
+                'userSavePost' => 'users/savePost',
+                'userDeletePath' => 'users/delete',
+                'userListingPath' => 'users/listing',
+                'id' => '',
+                'firstname' => '',
+                'lastname' => '',
+                'email' => '',
+                'roleId' => '',
+                'optionsSelected' => ''
+            ];
+
+            $userRepository = new UserRepository();
+            $entityRole = $userRepository->load((int) $id);
+
+            if ($entityRole && $entityRole->getId()) {
+                $arguments['title'] = 'Editar Usuário';
+                $arguments['id'] = $entityRole->getId();
+                $arguments['firstname'] = $entityRole->getFirstname();
+                $arguments['lastname'] = $entityRole->getLastname();
+                $arguments['email'] = $entityRole->getEmail();
+                $arguments['roleId'] = $entityRole->getRoleId();
+                $roleId = $entityRole->getRoleId();
+            }
+
+            $arguments['options'] = self::renderOptions($roleId);
+
+            if (self::$flag) {
+                $arguments['optionsSelected'] = 'selected';
+            }
+
+            $content = View::render(
+                'contents/users/save',
+                self::AREA_ADMIN_HOMEPAGE,
+                $arguments
+            );
+        } catch (Exception $exception) {
+            // TODO: Implementar Log
+            // TODO: Implementar flash messages
+
+            $request->getRouter()->redirect('/admin/index');
+            exit();
         }
 
-        $roleId = 0;
-        $arguments = [
-            'title' => 'Novo Usuário',
-            'userSavePath' => 'users/save',
-            'userSavePost' => 'users/savePost',
-            'userDeletePath' => 'users/delete',
-            'userListingPath' => 'users/listing',
-            'id' => '',
-            'firstname' => '',
-            'lastname' => '',
-            'email' => '',
-            'roleId' => '',
-            'optionsSelected' => ''
-        ];
-
-        $userRepository = new UserRepository();
-        $entityRole = $userRepository->load((int) $id);
-
-        if ($entityRole && $entityRole->getId()) {
-            $arguments['title'] = 'Editar Usuário';
-            $arguments['id'] = $entityRole->getId();
-            $arguments['firstname'] = $entityRole->getFirstname();
-            $arguments['lastname'] = $entityRole->getLastname();
-            $arguments['email'] = $entityRole->getEmail();
-            $arguments['roleId'] = $entityRole->getRoleId();
-            $roleId = $entityRole->getRoleId();
-        }
-
-        $arguments['options'] = self::renderOptions($roleId);
-
-        if (self::$flag) {
-            $arguments['optionsSelected'] = 'selected';
-        }
-
-        $content = View::render(
-            'contents/users/save',
-            self::AREA_ADMIN_HOMEPAGE,
-            $arguments
-        );
 
         return parent::getAdminPage(
             $arguments['title'],

@@ -89,6 +89,19 @@
                         <label class="form-check-label">Deletar</label>
                     </div>
                 </div>
+
+                <div class="form-check">
+                    <input class="form-check-input" type="checkbox" name="role_permissions[admin][role]" {{role_permissions_admin_role}}>
+                    <label class="form-check-label">Papel de Usuário</label>
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" name="role_permissions[admin][role][save]" {{role_permissions_admin_role_save}}>
+                        <label class="form-check-label">Salvar</label>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" name="role_permissions[admin][role][delete]" {{role_permissions_admin_role_delete}}>
+                        <label class="form-check-label">Deletar</label>
+                    </div>
+                </div>
             </div>
         </div>
     </section>

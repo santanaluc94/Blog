@@ -4,7 +4,7 @@ namespace App\Controller\Admin;
 
 use App\Http\Request;
 
-abstract class AbstractAdminPost
+abstract class AbstractAdminPost extends AbstractAdmin
 {
     public const AREA_ADMIN_HOMEPAGE = 'admin';
 

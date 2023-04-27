@@ -4,6 +4,7 @@ namespace App\Model\User;
 
 use App\Model\EntityInterface;
 use App\Model\Role\Repository as RoleRepository;
+use App\Model\Role\Entity as RoleEntity;
 
 class Entity implements EntityInterface
 {
@@ -122,13 +123,17 @@ class Entity implements EntityInterface
         return $this->getFirstname() . ' ' . $this->getLastname();
     }
 
-    public function getRoleName(): string
+    public function getRole(): RoleEntity
     {
         $roleId = $this->getRoleId();
 
         $roleRepository = new RoleRepository();
-        $role = $roleRepository->load($roleId);
-        return $role->getName();
+        return $roleRepository->load($roleId);
+    }
+
+    public function getRoleName(): string
+    {
+        return $this->getRole()->getName();
     }
 
     public function getData(): array

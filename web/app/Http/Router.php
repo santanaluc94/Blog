@@ -118,4 +118,10 @@ class Router
 
         return end($newUri);
     }
+
+    public function redirect($route): void
+    {
+        header("Location: " . URL . $route);
+        exit();
+    }
 }

@@ -4,15 +4,25 @@ use App\Controller\Admin;
 use App\Http\Response;
 
 /** @var \App\Http\Router $router */
+$router->get('/admin/index', [
+    'controller' => function ($request) {
+        return new Response(200, Admin\Index::execute($request));
+    }
+]);
+
 $router->get('/admin/login', [
     'controller' => function ($request) {
         return new Response(200, Admin\Login::execute($request));
     }
 ]);
 
-$router->get('/admin/register', [
+$router->get('/admin/logout', [
     'controller' => function ($request) {
-        return new Response(200, Admin\Register::execute($request));
+        return new Response(
+            200,
+            Admin\Logout::execute($request),
+            'application/x-httpd-php'
+        );
     }
 ]);
 

@@ -1,24 +1,24 @@
 <?php
 
-namespace App\Controller;
+namespace App\Controller\Site;
 
 use App\View\View;
 use App\Http\Request;
 
-class Home extends AbstractPage
+class Login extends AbstractPage
 {
     public static function execute(Request $request): string
     {
         $arguments = [
-            'title' => 'Blog: Página Inicial'
+            'title' => 'Blog: Register',
+            'actionFormUrl' => '',
+            'loginPath' => 'login'
         ];
 
-        $content = View::render(
-            'contents/home',
+        return View::render(
+            'register',
             self::AREA_FRONT_HOMEPAGE,
             $arguments
         );
-
-        return parent::getPage($arguments['title'], $content);
     }
 }

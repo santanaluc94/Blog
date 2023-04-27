@@ -16,63 +16,77 @@ class Save extends \App\Controller\Admin\AbstractAdminPage
     protected static string $statusOptions = '';
     protected static bool $categoryFlag = true;
     protected static bool $statusFlag = true;
+    protected static array $aclAreaMandatory = [
+        'area' => 'post',
+        'permission' => 'read'
+    ];
 
     public static function execute(Request $request): string
     {
-        $id = $request->getQueryParam('id');
+        try {
+            self::init(self::$aclAreaMandatory);
 
-        if ($id && !is_numeric($id)) {
-            throw new Exception('O ID informado não é válido.', 400);
+            $id = $request->getQueryParam('id');
+
+            if ($id && !is_numeric($id)) {
+                throw new Exception('O ID informado não é válido.', 400);
+            }
+
+            $categoryId = 0;
+            $statusId = -1;
+            $arguments = [
+                'title' => 'Nova Postagem',
+                'postSavePath' => 'posts/save',
+                'postSavePost' => 'posts/savePost',
+                'postDeletePath' => 'posts/delete',
+                'postListingPath' => 'posts/listing',
+                'id' => '',
+                'postTitle' => '',
+                'categoryId' => '',
+                'content' => '',
+                'categoryOptions' => '',
+                'categoryOptionsSelected' => '',
+                'statusId' => '',
+                'status' => '',
+                'statusOptionsSelected' => ''
+            ];
+
+            $postRepository = new Repository();
+            $entityRole = $postRepository->load((int) $id);
+
+            if ($entityRole && $entityRole->getId()) {
+                $arguments['title'] = 'Editar Postagem';
+                $arguments['id'] = $entityRole->getId();
+                $arguments['postTitle'] = $entityRole->getTitle();
+                $arguments['lastname'] = $categoryId = $entityRole->getCategoryId();
+                $arguments['statusId'] = $statusId = $entityRole->getStatus();
+                $arguments['status'] = $entityRole->getStatusName();
+                $arguments['content'] = $entityRole->getContent();
+            }
+
+            $arguments['categoryOptions'] = self::renderCategoryOptions($categoryId);
+            $arguments['statusOptions'] = self::renderStatusOptions($statusId);
+
+            if (self::$categoryFlag) {
+                $arguments['optionsSelected'] = 'selected';
+            }
+
+            if (self::$statusFlag) {
+                $arguments['statusOptionsSelected'] = 'selected';
+            }
+
+            $content = View::render(
+                'contents/posts/save',
+                self::AREA_ADMIN_HOMEPAGE,
+                $arguments
+            );
+        } catch (Exception $exception) {
+            // TODO: Implementar Log
+            // TODO: Implementar flash messages
+
+            $request->getRouter()->redirect('/admin/index');
+            exit();
         }
-
-        $categoryId = 0;
-        $statusId = -1;
-        $arguments = [
-            'title' => 'Nova Postagem',
-            'postSavePath' => 'posts/save',
-            'postSavePost' => 'posts/savePost',
-            'postDeletePath' => 'posts/delete',
-            'postListingPath' => 'posts/listing',
-            'id' => '',
-            'postTitle' => '',
-            'categoryId' => '',
-            'content' => '',
-            'categoryOptions' => '',
-            'categoryOptionsSelected' => '',
-            'statusId' => '',
-            'status' => '',
-            'statusOptionsSelected' => ''
-        ];
-
-        $postRepository = new Repository();
-        $entityRole = $postRepository->load((int) $id);
-
-        if ($entityRole && $entityRole->getId()) {
-            $arguments['title'] = 'Editar Postagem';
-            $arguments['id'] = $entityRole->getId();
-            $arguments['postTitle'] = $entityRole->getTitle();
-            $arguments['lastname'] = $categoryId = $entityRole->getCategoryId();
-            $arguments['statusId'] = $statusId = $entityRole->getStatus();
-            $arguments['status'] = $entityRole->getStatusName();
-            $arguments['content'] = $entityRole->getContent();
-        }
-
-        $arguments['categoryOptions'] = self::renderCategoryOptions($categoryId);
-        $arguments['statusOptions'] = self::renderStatusOptions($statusId);
-
-        if (self::$categoryFlag) {
-            $arguments['optionsSelected'] = 'selected';
-        }
-
-        if (self::$statusFlag) {
-            $arguments['statusOptionsSelected'] = 'selected';
-        }
-
-        $content = View::render(
-            'contents/posts/save',
-            self::AREA_ADMIN_HOMEPAGE,
-            $arguments
-        );
 
         return parent::getAdminPage(
             $arguments['title'],

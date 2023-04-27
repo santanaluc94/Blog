@@ -16,9 +16,15 @@ use Exception;
 
 class SavePost extends AbstractAdminPost implements PostInterface
 {
+    protected static array $aclAreaMandatory = [
+        'area' => 'user',
+        'permission' => 'save'
+    ];
+
     public static function execute(Request $request): string
     {
         try {
+            self::init(self::$aclAreaMandatory);
             $userData = $request->getPostVars();
             self::sanitizeFields($userData);
             $userRepository = new Repository();
@@ -29,6 +35,10 @@ class SavePost extends AbstractAdminPost implements PostInterface
                 }
 
                 $id = (int) $userData['id'];
+
+                if ($id === 1) {
+                    throw new Exception('O usuário Admin não pode ser alterado.', 401);
+                }
 
                 $entity = $userRepository->load($id);
                 $entity->setId($id)
@@ -59,6 +69,9 @@ class SavePost extends AbstractAdminPost implements PostInterface
         } catch (Exception $exception) {
             // TODO: Implementar Log
             // TODO: Implementar flash messages
+
+            $request->getRouter()->redirect('/admin/users/save');
+            exit();
         }
 
         return URL . '/admin/users/listing';
@@ -104,7 +117,10 @@ class SavePost extends AbstractAdminPost implements PostInterface
             is_string($data['user_password']) &&
             $data['user_password']
         ) {
-            $data['user_password'] = password_hash(htmlspecialchars($data['user_password']), PASSWORD_ARGON2ID);
+            $data['user_password'] = password_hash(
+                htmlspecialchars($data['user_password']),
+                PASSWORD_DEFAULT
+            );
         }
 
         $roleId = (int) $data['user_role_id'];
