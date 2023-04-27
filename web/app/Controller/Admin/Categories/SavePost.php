@@ -2,12 +2,18 @@
 
 namespace App\Controller\Admin\Categories;
 
+use App\Controller\Admin\{
+    AbstractAdminPost,
+    PostInterface
+};
 use App\Http\Request;
-use App\Model\Category\Entity;
-use App\Model\Category\Repository;
+use App\Model\Category\{
+    Entity,
+    Repository
+};
 use Exception;
 
-class SavePost extends \App\Controller\Admin\AbstractAdminPost
+class SavePost extends AbstractAdminPost implements PostInterface
 {
     public static function execute(Request $request): string
     {
@@ -48,7 +54,7 @@ class SavePost extends \App\Controller\Admin\AbstractAdminPost
         return URL . '/admin/categories/listing';
     }
 
-    protected static function sanitizeFields(array &$data): void
+    public static function sanitizeFields(array &$data): void
     {
         if (
             !isset($data['category_name']) ||

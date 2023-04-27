@@ -9,6 +9,4 @@ abstract class AbstractAdminPost
     public const AREA_ADMIN_HOMEPAGE = 'admin';
 
     abstract public static function execute(Request $request): string;
-
-    abstract protected static function sanitizeFields(array &$data);
 }

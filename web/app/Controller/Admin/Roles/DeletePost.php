@@ -27,10 +27,18 @@ class DeletePost extends \App\Controller\Admin\AbstractAdminPost
                 );
             }
         } catch (Exception $exception) {
+            var_dump($exception->getMessage());
+            die;
             // TODO: Implementar Log
             // TODO: Implementar flash messages
         }
 
         return URL . '/admin/roles/listing';
     }
+
+    protected static function sanitizeFields(array &$data)
+    {
+
+    }
+
 }

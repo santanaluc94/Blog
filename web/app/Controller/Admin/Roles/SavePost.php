@@ -2,12 +2,18 @@
 
 namespace App\Controller\Admin\Roles;
 
+use App\Controller\Admin\{
+    AbstractAdminPost,
+    PostInterface
+};
 use App\Http\Request;
-use App\Model\Role\Entity;
-use App\Model\Role\Repository;
+use App\Model\Role\{
+    Entity,
+    Repository
+};
 use Exception;
 
-class SavePost extends \App\Controller\Admin\AbstractAdminPost
+class SavePost extends AbstractAdminPost implements PostInterface
 {
     public static function execute(Request $request): string
     {
@@ -50,7 +56,7 @@ class SavePost extends \App\Controller\Admin\AbstractAdminPost
         return URL . '/admin/roles/listing';
     }
 
-    protected static function sanitizeFields(array &$data): void
+    public static function sanitizeFields(array &$data): void
     {
         if (
             !isset($data['role_name']) ||

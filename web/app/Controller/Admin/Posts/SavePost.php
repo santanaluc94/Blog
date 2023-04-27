@@ -2,13 +2,19 @@
 
 namespace App\Controller\Admin\Posts;
 
+use App\Controller\Admin\{
+    AbstractAdminPost,
+    PostInterface
+};
 use App\Http\Request;
-use App\Model\Post\Entity;
-use App\Model\Post\Repository;
+use App\Model\Post\{
+    Entity,
+    Repository
+};
 use App\Model\Category\Repository as CategoryRepository;
 use Exception;
 
-class SavePost extends \App\Controller\Admin\AbstractAdminPost
+class SavePost extends AbstractAdminPost implements PostInterface
 {
     public static function execute(Request $request): string
     {
@@ -51,8 +57,6 @@ class SavePost extends \App\Controller\Admin\AbstractAdminPost
                 );
             }
         } catch (Exception $exception) {
-            var_dump($exception->getMessage());
-            die();
             // TODO: Implementar Log
             // TODO: Implementar flash messages
         }
@@ -60,7 +64,7 @@ class SavePost extends \App\Controller\Admin\AbstractAdminPost
         return URL . '/admin/posts/listing';
     }
 
-    protected static function sanitizeFields(array &$data): void
+    public static function sanitizeFields(array &$data): void
     {
         if (
             !isset($data['post_title']) ||
