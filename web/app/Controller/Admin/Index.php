@@ -4,8 +4,6 @@ namespace App\Controller\Admin;
 
 use App\View\View;
 use App\Http\Request;
-use App\Model\AdminSession;
-use App\Model\Role\Entity as RoleEntity;
 use Exception;
 
 class Index extends AbstractAdminPage
@@ -13,19 +11,7 @@ class Index extends AbstractAdminPage
     public static function execute(Request $request): string
     {
         try {
-            /** @var RoleEntity $roleSession */
-            $roleSession = AdminSession::getSession()['role'];
-
-            if (
-                !AdminSession::isLoggedIn() ||
-                !$roleSession->getId() ||
-                !self::isAllowed($roleSession->getPermissionsArray())
-            ) {
-                throw new Exception(
-                    'Este usuário não possui acesso a essa rota.',
-                    401
-                );
-            }
+            self::init(self::$aclAreaMandatory);
 
             $arguments = [
                 'title' => 'Página Inicial',
@@ -36,7 +22,7 @@ class Index extends AbstractAdminPage
             // TODO: Implementar Log
             // TODO: Implementar flash messages
 
-            $request->getRouter()->redirect(URL . '/admin/login');
+            $request->getRouter()->redirect('/admin/login');
         }
 
         return View::render(

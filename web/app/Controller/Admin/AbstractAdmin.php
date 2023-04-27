@@ -21,11 +21,17 @@ abstract class AbstractAdmin
             self::$aclAreaMandatory = $aclAreaMandatory;
         }
 
+        if (!AdminSession::isLoggedIn()) {
+            throw new Exception(
+                'Este usuário não possui acesso a essa rota.',
+                401
+            );
+        }
+
         /** @var RoleEntity $roleSession */
         $roleSession = AdminSession::getSession()['role'];
 
         if (
-            !AdminSession::isLoggedIn() ||
             !$roleSession->getId() ||
             !self::isAllowed($roleSession->getPermissionsArray(), self::$aclAreaMandatory)
         ) {
@@ -36,7 +42,7 @@ abstract class AbstractAdmin
         }
     }
 
-    public static function isAllowed(array $permissions, $aclAreaMandatory = []): bool
+    protected static function isAllowed(array $permissions): bool
     {
         if (empty(self::$aclAreaMandatory)) {
             return true;

@@ -25,13 +25,13 @@ class AdminSession
     {
         self::init();
 
-        return $_SESSION['admin'];
+        return isset($_SESSION['admin']) ? $_SESSION['admin'] : [];
     }
 
     public static function unsetSession(): void
     {
-        if (session_status() === PHP_SESSION_ACTIVE) {
-            session_destroy();
+        if (self::isLoggedIn()) {
+            unset($_SESSION['admin']);
         }
     }
 
@@ -39,7 +39,11 @@ class AdminSession
     {
         self::init();
 
-        if (!isset($_SESSION['admin']['user'])) {
+        if (
+            !isset($_SESSION['admin']) ||
+            !isset($_SESSION['admin']['user']) ||
+            !isset($_SESSION['admin']['role'])
+        ) {
             return false;
         }
 
