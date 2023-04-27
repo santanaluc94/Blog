@@ -66,9 +66,6 @@ abstract class AbstractAdmin
                 return true;
             }
 
-//             var_dump($adminPermissions);
-//             var_dump(self::$aclAreaMandatory);
-// die;
             if (
                 (self::$aclAreaMandatory['permission'] === 'save' || self::$aclAreaMandatory['permission'] === 'delete') &&
                 isset($adminPermissions[self::$aclAreaMandatory['area']]) &&
