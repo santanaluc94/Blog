@@ -40,6 +40,7 @@ abstract class AbstractAdminPage extends AbstractAdmin
             'postListingPath' => 'posts/listing',
             'rolesListingPath' => 'roles/listing',
             'usersListingPath' => 'users/listing',
+            'logoutPath' => 'logout',
             'generateUrlDump' => 'dump'
         ];
 

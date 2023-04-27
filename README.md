@@ -89,7 +89,7 @@ Demais usuários:
 
 ```txt
 E-mail: {email}
-Senha: admin123
+Senha: 123
 ```
 
 ---
