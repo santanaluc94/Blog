@@ -73,3 +73,9 @@ $router->get('/admin/roles/save/{id}', [
         return new Response(200, Admin\Roles\Save::execute($request));
     }
 ]);
+
+$router->get('/admin/dump', [
+    'controller' => function ($request) {
+        return new Response(200, Admin\Dump::execute($request));
+    }
+]);
