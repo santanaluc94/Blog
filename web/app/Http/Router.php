@@ -94,7 +94,7 @@ class Router
             if (preg_match($patternRoute, $uri, $matches)) {
                 if (isset($methods[$httpMethod])) {
                     if (isset($matches[1])) {
-                        $this->request->setQueryParam('id', (int) $matches[1]);
+                        $this->request->setQueryParam('id', $matches[1]);
                     }
                     unset($matches[0]);
 

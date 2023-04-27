@@ -113,4 +113,20 @@ class Repository extends AbstractDatabase implements RepositoryInterface
         return $entity->setCreatedAt($entityData[Entity::CREATED_AT])
             ->setUpdatedAt($entityData[Entity::UPDATED_AT]);
     }
+
+    public function getPostCollectionByCategoryId(
+        int $categoryId,
+        ?int $postStatus = null
+    ): ?array {
+        $where = "category_id = {$categoryId}";
+
+        if ($postStatus) {
+            $where .= " AND status = {$postStatus}";
+        }
+
+        return $this->getCollection(
+            '*',
+            $where
+        );
+    }
 }

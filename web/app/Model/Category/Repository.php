@@ -6,6 +6,7 @@ use App\Model\RepositoryInterface;
 use App\Model\EntityInterface;
 use App\Model\AbstractDatabase;
 use App\Model\Category\Entity;
+use Exception;
 
 class Repository extends AbstractDatabase implements RepositoryInterface
 {
@@ -29,13 +30,13 @@ class Repository extends AbstractDatabase implements RepositoryInterface
                 $this->insert($entity->getData());
 
             if (!isset($entityData['id']) && is_null($entityData['id'])) {
-                throw new \Exception(
+                throw new Exception(
                     "Não foi possível salvar o objeto para a tabela {$this->table}."
                 );
             }
 
             return $this->populateEntityWithData($entityData);
-        } catch (\Exception $exception) {
+        } catch (Exception $exception) {
             // TODO: Implementar Log
         }
 
@@ -48,13 +49,13 @@ class Repository extends AbstractDatabase implements RepositoryInterface
             $entityData = $this->selectById($id);
 
             if (!isset($entityData['id']) && is_null($entityData['id'])) {
-                throw new \Exception(
+                throw new Exception(
                     "Não foi possível encontrar um objeto com o ID {$id} para a tabela {$this->table}."
                 );
             }
 
             return $this->populateEntityWithData($entityData);
-        } catch (\Exception $exception) {
+        } catch (Exception $exception) {
             // TODO: Implementar Log
         }
 
@@ -93,7 +94,7 @@ class Repository extends AbstractDatabase implements RepositoryInterface
             }
 
             return $collection;
-        } catch (\Exception $exception) {
+        } catch (Exception $exception) {
             // TODO: Implementar Log
         }
 
@@ -109,5 +110,46 @@ class Repository extends AbstractDatabase implements RepositoryInterface
         );
         return $entity->setCreatedAt($entityData[Entity::CREATED_AT])
             ->setUpdatedAt($entityData[Entity::UPDATED_AT]);
+    }
+
+    public function getBySlug(string $slug): ?Entity
+    {
+        try {
+            $where = "slug = '{$slug}'";
+
+            $entityData = $this->select(
+                '*',
+                $where
+            );
+
+            if (
+                empty($entityData) ||
+                !is_array($entityData)
+            ) {
+                throw new Exception(
+                    "Não foi possível encontrar um objeto com o slug '{$slug}' na tabela {$this->table}.",
+                    400
+                );
+            }
+
+            $entityData = reset($entityData);
+
+            if (
+                empty($entityData) ||
+                !isset($entityData['id']) &&
+                is_null($entityData['id'])
+            ) {
+                throw new Exception(
+                    "Não foi possível encontrar um objeto com o slug '{$slug}' na tabela {$this->table}.",
+                    400
+                );
+            }
+
+            return $this->populateEntityWithData($entityData);
+        } catch (Exception $exception) {
+            // TODO: Implementar Log
+        }
+
+        return null;
     }
 }

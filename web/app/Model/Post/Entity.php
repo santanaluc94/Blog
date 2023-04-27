@@ -2,6 +2,7 @@
 
 namespace App\Model\Post;
 
+use App\Model\Category\Entity as CategoryEntity;
 use App\Model\EntityInterface;
 use App\Model\User\Repository as UserRepository;
 use App\Model\Category\Repository as CategoryRepository;
@@ -135,13 +136,17 @@ class Entity implements EntityInterface
         return $user->getFullname();
     }
 
-    public function getCategoryName(): string
+    public function getCategory(): CategoryEntity
     {
         $categoryId = $this->getCategoryId();
 
         $categoryRepository = new CategoryRepository();
-        $category = $categoryRepository->load($categoryId);
-        return $category->getName();
+        return $categoryRepository->load($categoryId);
+    }
+
+    public function getCategoryName(): string
+    {
+        return $this->getCategory()->getName();
     }
 
     public function getStatusName(): string
@@ -153,6 +158,11 @@ class Entity implements EntityInterface
         }
 
         return 'Sem status válido';
+    }
+
+    public function isShowInSite(): bool
+    {
+        return self::VALID_STATUS[$this->getStatus()] === self::VALID_STATUS[3];
     }
 
     public function getData(): array
