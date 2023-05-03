@@ -76,8 +76,8 @@ abstract class AbstractAdmin
                 (self::$aclAreaMandatory['permission'] === 'save' || self::$aclAreaMandatory['permission'] === 'delete') &&
                 isset($adminPermissions[self::$aclAreaMandatory['area']]) &&
                 is_array($adminPermissions[self::$aclAreaMandatory['area']]) &&
-                isset($adminPermissions[self::$aclAreaMandatory['area']][self::$aclAreaMandatory['permission']]) &&
-                $adminPermissions[self::$aclAreaMandatory['area']][self::$aclAreaMandatory['permission']] == true
+                isset($adminPermissions[self::$aclAreaMandatory['area']]['read'][self::$aclAreaMandatory['permission']]) &&
+                $adminPermissions[self::$aclAreaMandatory['area']]['read'][self::$aclAreaMandatory['permission']] == true
             ) {
                 return true;
             }

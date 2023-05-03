@@ -26,7 +26,7 @@ class Save extends \App\Controller\Admin\AbstractAdminPage
             }
 
             $arguments = [
-                'title' => 'Novo Usuário',
+                'title' => 'Novo Papel de Usuário',
                 'roleSavePath' => 'roles/save',
                 'roleSavePost' => 'roles/savePost',
                 'roleDeletePath' => 'roles/delete',

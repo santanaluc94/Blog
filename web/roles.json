@@ -2,22 +2,20 @@
     "site": true,
     "admin": {
         "category": {
-            "read": {
-                "save": true,
-                "delete": true
-            }
+            "save": true,
+            "delete": true
         },
         "post": {
-            "read": {
-                "save": true,
-                "delete": true
-            }
+            "save": true,
+            "delete": true
         },
         "user": {
-            "read": {
-                "save": true,
-                "delete": true
-            }
+            "save": true,
+            "delete": true
+        },
+        "role": {
+            "save": true,
+            "delete": true
         }
     }
 }
